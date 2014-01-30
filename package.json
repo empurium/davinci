@@ -1,0 +1,10 @@
+{
+	"name": "davinci",
+	"version": "0.0.1",
+	"private": false,
+	"engines": {"node": "0.10.18"},
+	"dependencies": {
+		"mongoskin": "0.6.x",
+		"async": "0.2.x"
+	}
+}
