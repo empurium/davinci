@@ -12,6 +12,10 @@ Config.slash = '/';
 //Config.pictures_root = '/space/Pictures/Permanent';
 Config.pictures_root = 'Pictures';
 
+// exiftool is available at:
+// http://www.sno.phy.queensu.ca/~phil/exiftool/
+Config.exiftool = '/usr/local/bin/exiftool';
+
 Config.mongo = {
   host: 'localhost',
   port: '27017',
