@@ -9,8 +9,8 @@ Config.cookie_secret  = 'quesadillatacos';
 Config.slash = '/';
 
 // Directory containing Events pictures, no trailing slash
-//Config.pictures_root = '/space/Pictures/Permanent';
-Config.pictures_root = 'Pictures';
+//Config.pictures_dir = '/space/Pictures/Permanent';
+Config.pictures_dir = 'Pictures';
 
 // exiftool is available at:
 // http://www.sno.phy.queensu.ca/~phil/exiftool/
