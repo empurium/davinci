@@ -16,7 +16,10 @@ Config.project = {
 	name_lc:          'davinci',
 	domain:           'davinci.com',
 	domain_pretty:    'davinci.com',
-	site_title:       'DaVinci Web Gallery'
+	site_title:       'DaVinci Web Gallery',
+	//pictures_root     '/space/Pictures/Permanent',  // no trailing slash
+	pictures_root     'Pictures',  // no trailing slash
+	slash             '/'                           // use '\\' on Windows
 }
 
 Config.daemons = {
