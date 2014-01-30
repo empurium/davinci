@@ -2,47 +2,57 @@ var Config        = require('../config');
 var mongo         = require('../db/mongo');
 var async         = require('async');
 var fs            = require('fs');
+var child_process = require('child_process');
 
-//
-// CONFIGURATION
-//
-var unsortedDir = '/space/Unsorted/Pictures/Picasa';   // no trailing slash
-var archiveDir  = '/space/Unsorted/Pictures/Archive';  // no trailing slash
-var archiveType = 'copy';     // copy, move, or test
-var slash       = '/';        // use '\\' on Windows
-
-// DEV TESTING
-//var unsortedDir = 'Pictures';
-//var archiveDir  = 'Archive';
-
-// exiftool is available at:
-// http://www.sno.phy.queensu.ca/~phil/exiftool/
-var exifTool    = '/usr/local/bin/exiftool';           // path to exiftool binary
-
+var slash       = Config.slash;
 var imageTypes  = /jpg/i;
 var videoTypes  = /(mp4|mov|mts|mpg)/i;
 
 var eventInfo = [];
 
 
-// find all event directories and process them
-fs.readdir(unsortedDir, function(err, events) {
+// assumes Pictures/Year/Event Name/files.*
+fs.readdir(Config.pictures_dir, function(err, years) {
 	if (err) throw err;
 
-	async.eachLimit( events, 3, function iter(eventName, next) {
-		var eventDir = unsortedDir + slash + eventName;
+	// We could look in here and traverse more intelligently:
+	//
+	// If it's a directory and there are files within it, we could
+	// assume it's an Event.
+	//
+	// If it's a directory and there is another directory within
+	// it, we could assume it's an irrelevant directory name (year
+	// in our case, but could be 'family pics', etc)
+	//
+	// Either way, we would only assume it's an Event if it's a
+	// directory with nothing but files in it (excluding .picasaoriginals)
 
-		brushEventFiles(eventDir, eventName, function() {
-			next();
+	async.eachLimit(years, 1, function iter(year, nextYear) {
+		var yearDir = Config.pictures_dir + slash + year;
+
+			fs.readdir(yearDir, function(err, events) {
+				if (err) throw err;
+
+				async.eachLimit( events, 3, function iter(eventName, nextEvent) {
+					var eventDir = Config.pictures_dir + slash + year + slash + eventName;
+
+					brushEventFiles(eventDir, eventName, function() {
+						nextEvent();
+					});
+				});
+			});
+			//nextYear(); // Where to call this?
 		});
-	});
-});
+	}
+);
 
 
 
 
 function brushEventFiles(eventDir, eventName, next_event) {
-	eventInfo[eventDir] = [];
+	eventInfo[eventDir]          = [];
+	eventInfo[eventDir]['files'] = [];
+
 	var eventStart = new Date();
 	var eventEnd   = new Date();
 	var files = fs.readdirSync(eventDir);
@@ -82,6 +92,7 @@ function brushEventFiles(eventDir, eventName, next_event) {
 
 				eventInfo[eventDir]['start'] = eventStart;
 				eventInfo[eventDir]['end']   = eventEnd;
+				eventInfo[eventDir]['files'].push(fileName);
 
 				return next();
 			});
@@ -90,8 +101,6 @@ function brushEventFiles(eventDir, eventName, next_event) {
 			var year  = eventStart.getFullYear();
 			var month = eventEnd.getMonth() * 1 + 1;
 			    month = (month < 10) ? '0' + month : month;
-			//var newEventDir = archiveDir + slash + year + slash + month + slash + eventName;
-			var newEventDir = archiveDir + slash + year + slash + eventName;
 
 			console.log(eventName + ' (' + files.length + ' files):');
 			console.log(' -> started ' + eventStart);
@@ -100,18 +109,32 @@ function brushEventFiles(eventDir, eventName, next_event) {
 				console.log(' -> (JPG found - skipped video files)');
 			}
 
-			fs.stat(newEventDir, function(err, stat) {
-				if ( stat && stat.isDirectory() ) {
-					console.log(' -> NOT copying (already exists): ' + newEventDir);
-					next_event();
-				} else {
-					moveFiles(eventName, eventDir, newEventDir, function() {
+			mongo.db.collection('events').findOne({
+				name:  eventName,
+				year:  year,
+				month: month
+			},
+			function (err, event) {
+				if (err) throw err;
+
+				if (event) {
+					// update the event times
+					// update the list of files
+				}
+				else {
+					mongo.db.collection('events').insert({
+						name:  eventName,
+						year:  year,
+						month: month,
+						path:  eventDir,
+						files: [ files ]
+					},
+					{},
+					function() {
 						next_event();
 					});
 				}
 			});
-
-			//console.log(eventInfo);
 		}
 	);
 }
@@ -147,44 +170,6 @@ function getFileDate(eventDir, fileName, callback) {
 	}
 }
 
-function moveFiles(eventName, eventDir, newEventDir, callback) {
-	console.log(' -> ' + newEventDir);
-
-	var files = fs.readdirSync(eventDir);
-	eventInfo[eventDir]['files'] = [];
-
-	async.eachLimit(files, 3,
-		function iter(fileName, next) {
-			var filePath    = eventDir + slash + fileName;
-			var newFilePath = newEventDir + slash + fileName;
-
-			mkdirp(newEventDir, function(err) {
-				if (err) throw err;
-				eventInfo[eventDir]['files'].push(newFilePath);
-				//console.log(' -> ' + filePath + ' -> ' + newFilePath);
-
-				if (archiveType == 'move') {
-					child_process.execFile('/bin/mv', ['-n', filePath, newFilePath], {}, function(err) {
-						if (err) throw err;
-						return next();
-					});
-				}
-
-				if (archiveType == 'copy') {
-					child_process.execFile('/bin/cp', ['-an', filePath, newFilePath], {}, function(err) {
-						if (err) throw err;
-						return next();
-					});
-				}
-			});
-		},
-		function done(err) {
-			if (err) throw err;
-			callback();
-		}
-	);
-}
-
 
 function parseDate(dateString) {
 	// 2012:10:30 19:09:16
@@ -209,7 +194,7 @@ function getPhysicalDate(filePath, callback) {
 }
 
 function getImageExifDate(filePath, callback) {
-	child_process.execFile(exifTool, ['-j', filePath], {}, function(err, stdout) {
+	child_process.execFile(Config.exiftool, ['-j', filePath], {}, function(err, stdout) {
 		var stdout   = JSON.parse(stdout.toString());
 		var stdout   = stdout[0];
 		var fileDate = false;
@@ -239,7 +224,7 @@ function getImageExifDate(filePath, callback) {
 }
 
 function getVideoExifDate(filePath, callback) {
-	child_process.execFile(exifTool, ['-j', filePath], {}, function(err, stdout) {
+	child_process.execFile(Config.exiftool, ['-j', filePath], {}, function(err, stdout) {
 		var stdout   = JSON.parse(stdout.toString());
 		var stdout   = stdout[0];
 		var fileDate = false;
