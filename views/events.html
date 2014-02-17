@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+	<script type="text/javascript" src="/js/events.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	{% if events %}
+		<div class="col-md-12">
+			{% for event in events %}
+				<div class="well">
+					{% for file in event.files %}
+					<!--<a href="/events/{{ event._id }}"><img src="/images/{{ file }}" /></a>-->
+					{{ event.name }}
+					{{ event.path }}
+					{{ event.year }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+</div>
+{% endblock %}
