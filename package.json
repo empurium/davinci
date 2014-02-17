@@ -4,7 +4,12 @@
 	"private": false,
 	"engines": {"node": "0.10.18"},
 	"dependencies": {
+		"daemonize2": "0.4.2",
+		"express": "~3.0.0",
+		"swig": "0.13.x",
+		"stylus": "0.38.x",
 		"mongoskin": "0.6.x",
-		"async": "0.2.x"
+		"async": "0.2.x",
+		"consolidate": "0.8.x"
 	}
 }
