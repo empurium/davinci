@@ -229,7 +229,7 @@ function parseDate(dateString) {
 function getFileExt(fileName) {
 	var x = fileName.match(/\.(\w{3,4})$/);
 	if (x && x.length > 0) {
-		return x[1];
+		return x[1].toLowerCase();
 	}
 	return false;
 }
