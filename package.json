@@ -10,6 +10,7 @@
 		"stylus": "0.38.x",
 		"mongoskin": "0.6.x",
 		"async": "0.2.x",
-		"consolidate": "0.8.x"
+		"consolidate": "0.8.x",
+		"mkdirp": "0.3.x"
 	}
 }
