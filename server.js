@@ -28,7 +28,7 @@ swig.init({
 });
 
 app.get('/', routes.root.root);
-app.get('/login', routes.root.root);
+//app.get('/login', routes.root.root);
 //app.post('/login', routes.user.login);
 //app.get('/logout', routes.user.logout);
 
