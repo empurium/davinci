@@ -139,6 +139,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 						begins:  eventStart,
 						ends:    eventEnd,
 						path:    eventDir,
+						thumb:   eventInfo[eventDir]['files'][0],
 						files:   eventInfo[eventDir]['files']
 					},
 					{},
