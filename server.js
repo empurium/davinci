@@ -32,6 +32,8 @@ app.get('/login', routes.root.root);
 //app.post('/login', routes.user.login);
 //app.get('/logout', routes.user.logout);
 
+app.get('/thumb/:year/:month/:slug/:image', routes.thumbs.serve);
+
 
 server.listen(Config.port, Config.host);
 console.log('DaVinci ready on port ' + Config.port + ' at ' + Config.host);
