@@ -4,30 +4,10 @@ var mongo  = require('../app/db/mongo');
 var root = module.exports = {};
 
 root.root = function(req, res) {
+	res.render('pictures.html');
+
 //	if (req.session && req.session.user_id) {
-		mongo.db.collection('events')
-			.find()
-			.limit(50)
-			.toArray(function(err, events) {
-				res.render('events.html', {
-					events: events
-				});
-		});
 //	} else {
 //		res.render('login.html');
 //	}
-}
-
-root.event = function(req, res) {
-	var year    = req.params.year;
-	var month   = req.params.month;
-	var slug    = req.params.slug;
-
-	var fullSlug = year + '/' + month + '/' + slug;
-
-	mongo.db.collection('events').findOne({ slug: fullSlug }, function(err, event) {
-		res.render('event.html', {
-			event: event
-		});
-	});
 }
