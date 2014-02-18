@@ -16,6 +16,8 @@ events.events = function(req, res) {
 }
 
 events.event = function(req, res) {
+	if ( ! req.xhr ) { res.render('pictures.html'); }
+
 	var year    = req.params.year;
 	var month   = req.params.month;
 	var slug    = req.params.slug;
