@@ -107,7 +107,6 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 		function done(err) {
 			var year  = eventStart.getFullYear();
 			var month = eventStart.getMonth() * 1 + 1;
-			    month = (month < 10) ? '0' + month : month;
 
 			var eventSlug = year + '/' + month + '/';
 			    eventSlug = eventSlug + eventName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
@@ -136,7 +135,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 						name:    eventName,
 						slug:    eventSlug,
 						year:    year,
-						month:   parseInt(month),
+						month:   month,
 						begins:  eventStart,
 						ends:    eventEnd,
 						path:    eventDir,
