@@ -12,6 +12,17 @@ Config.slash = '/';
 //Config.pictures_dir = '/space/Pictures/Permanent';
 Config.pictures_dir = 'Pictures';
 
+// Directory to save the thumbnails. Could change to S3 in the future
+Config.thumbs = {
+	path:  '/tmp/thumbnails',
+	sizes: [
+		'128x128',
+		'200x200',
+		'640x640',
+		'960x960'
+	]
+}
+
 Config.cli = {
 	// exiftool is available at:
 	// http://www.sno.phy.queensu.ca/~phil/exiftool/
