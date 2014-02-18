@@ -17,3 +17,17 @@ root.root = function(req, res) {
 //		res.render('login.html');
 //	}
 }
+
+root.event = function(req, res) {
+	var year    = req.params.year;
+	var month   = req.params.month;
+	var slug    = req.params.slug;
+
+	var fullSlug = year + '/' + month + '/' + slug;
+
+	mongo.db.collection('events').findOne({ slug: fullSlug }, function(err, event) {
+		res.render('event.html', {
+			event: event
+		});
+	});
+}
