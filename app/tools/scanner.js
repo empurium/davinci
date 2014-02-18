@@ -3,6 +3,7 @@ var mongo         = require('../db/mongo');
 var async         = require('async');
 var fs            = require('fs');
 var child_process = require('child_process');
+var mkdirp        = require('mkdirp');
 
 var slash       = Config.slash;
 var imageTypes  = /jpg/i;
@@ -182,22 +183,27 @@ function genThumbnails(eventName, eventDir, fileName, callback) {
 	var filePath = eventDir + slash + fileName;
 	var fileExt  = getFileExt(fileName);
 
-	async.eachLimit(Config.thumbs.sizes, 4,
+	async.eachLimit(Config.thumbs.sizes, 2,
 		function iter(size, next) {
+			var thumbPath = Config.thumbs.path + slash + eventName;
 			var options = [
 				'-define', 'jpeg:size=' + size,
-				' -gravity', 'center',
+				'-gravity', 'center',
 				'-thumbnail', size + '^',
 				'-extent', size,
 				'-auto-orient',
 				filePath,
-				Config.thumbs.dir + slash + eventName + slash + fileName + '-' + size + '.' + fileExt
+				thumbPath + slash + fileName + '-' + size + '.' + fileExt
 			];
-			console.log(options);
 
-			child_process.execFile(Config.cli.convert, options, {}, function(err, stdout) {
-				console.log(stdout);
-				next();
+			mkdirp(thumbPath, function(err) {
+				if (err) throw err;
+
+				child_process.execFile(Config.cli.convert, options, {}, function(err, stdout) {
+					if (err) throw err;
+
+					next();
+				});
 			});
 		},
 		function done() {
