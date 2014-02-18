@@ -123,11 +123,13 @@ function brushEventFiles(eventDir, eventName, next_event) {
 				}
 				else {
 					mongo.db.collection('events').insert({
-						name:  eventName,
-						year:  year,
-						month: month,
-						path:  eventDir,
-						files: [ files ]
+						name:    eventName,
+						year:    year,
+						month:   month,
+						begins:  eventStart,
+						ends:    eventEnd,
+						path:    eventDir,
+						files:   [ files ]
 					},
 					{},
 					function() {
