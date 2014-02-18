@@ -106,8 +106,11 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 		},
 		function done(err) {
 			var year  = eventStart.getFullYear();
-			var month = eventEnd.getMonth() * 1 + 1;
+			var month = eventStart.getMonth() * 1 + 1;
 			    month = (month < 10) ? '0' + month : month;
+
+			var eventSlug = year + '/' + month + '/';
+			    eventSlug = eventSlug + eventName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
 			console.log(eventName + ' (' + files.length + ' files):');
 			console.log(' -> started ' + eventStart);
@@ -131,8 +134,9 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 				} else {
 					mongo.db.collection('events').insert({
 						name:    eventName,
+						slug:    eventSlug,
 						year:    year,
-						month:   month,
+						month:   parseInt(month),
 						begins:  eventStart,
 						ends:    eventEnd,
 						path:    eventDir,
