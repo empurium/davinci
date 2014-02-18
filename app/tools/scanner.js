@@ -50,7 +50,7 @@ fs.readdir(Config.pictures_dir, function(err, years) {
 
 
 
-function scanEventFiles(eventDir, eventName, next_event) {
+function scanEventFiles(eventDir, eventName, nextEvent) {
 	eventInfo[eventDir]          = [];
 	eventInfo[eventDir]['files'] = [];
 
@@ -127,8 +127,8 @@ function scanEventFiles(eventDir, eventName, next_event) {
 				if (event) {
 					// update the event times
 					// update the list of files
-				}
-				else {
+					nextEvent();
+				} else {
 					mongo.db.collection('events').insert({
 						name:    eventName,
 						year:    year,
@@ -140,7 +140,7 @@ function scanEventFiles(eventDir, eventName, next_event) {
 					},
 					{},
 					function() {
-						next_event();
+						nextEvent();
 					});
 				}
 			});
@@ -183,9 +183,10 @@ function genThumbnails(eventName, eventDir, fileName, callback) {
 	var filePath = eventDir + slash + fileName;
 	var fileExt  = getFileExt(fileName);
 
-	async.eachLimit(Config.thumbs.sizes, 2,
+	async.eachLimit(Config.thumbs.sizes, 5,
 		function iter(size, next) {
 			var thumbPath = Config.thumbs.path + slash + eventName;
+			var thumbFile = thumbPath + slash + fileName + '-' + size + '.' + fileExt;
 			var options = [
 				'-define', 'jpeg:size=' + size,
 				'-gravity', 'center',
@@ -193,17 +194,20 @@ function genThumbnails(eventName, eventDir, fileName, callback) {
 				'-extent', size,
 				'-auto-orient',
 				filePath,
-				thumbPath + slash + fileName + '-' + size + '.' + fileExt
+				thumbFile
 			];
 
 			mkdirp(thumbPath, function(err) {
 				if (err) throw err;
 
-				child_process.execFile(Config.cli.convert, options, {}, function(err, stdout) {
-					if (err) throw err;
-
+				if ( ! fs.existsSync(thumbFile) ) {
+					child_process.execFile(Config.cli.convert, options, {}, function(err, stdout) {
+						if (err) throw err;
+						next();
+					});
+				} else {
 					next();
-				});
+				}
 			});
 		},
 		function done() {
