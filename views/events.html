@@ -7,18 +7,17 @@
 {% block content %}
 <div class="row">
 	{% if events %}
-		<div class="col-md-12">
-			{% for event in events %}
+		{% for event in events %}
+			<div class="col-md-3">
 				<div class="well">
-					{% for file in event.files %}
-					<!--<a href="/events/{{ event._id }}"><img src="/images/{{ file }}" /></a>-->
+					<a href="/events/{{ event._id }}"><img src="/images/{{ file }}" /></a>
 					{{ event.name }}
-					{{ event.path }}
-					{{ event.year }}
+
+					{% for file in event.files %}
 					{% endfor %}
 				</div>
-			{% endfor %}
-		</div>
+			</div>
+		{% endfor %}
 	{% endif %}
 </div>
 {% endblock %}
