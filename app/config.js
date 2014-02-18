@@ -12,9 +12,15 @@ Config.slash = '/';
 //Config.pictures_dir = '/space/Pictures/Permanent';
 Config.pictures_dir = 'Pictures';
 
-// exiftool is available at:
-// http://www.sno.phy.queensu.ca/~phil/exiftool/
-Config.exiftool = '/usr/local/bin/exiftool';
+Config.cli = {
+	// exiftool is available at:
+	// http://www.sno.phy.queensu.ca/~phil/exiftool/
+	exiftool = '/usr/local/bin/exiftool',
+
+	// convert is part of imagemagick
+	// (apt-get|brew) install imagemagick
+	convert  = '/usr/local/bin/convert'
+}
 
 Config.mongo = {
   host: 'localhost',

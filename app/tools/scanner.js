@@ -194,7 +194,7 @@ function getPhysicalDate(filePath, callback) {
 }
 
 function getImageExifDate(filePath, callback) {
-	child_process.execFile(Config.exiftool, ['-j', filePath], {}, function(err, stdout) {
+	child_process.execFile(Config.cli.exiftool, ['-j', filePath], {}, function(err, stdout) {
 		var stdout   = JSON.parse(stdout.toString());
 		var stdout   = stdout[0];
 		var fileDate = false;
@@ -224,7 +224,7 @@ function getImageExifDate(filePath, callback) {
 }
 
 function getVideoExifDate(filePath, callback) {
-	child_process.execFile(Config.exiftool, ['-j', filePath], {}, function(err, stdout) {
+	child_process.execFile(Config.cli.exiftool, ['-j', filePath], {}, function(err, stdout) {
 		var stdout   = JSON.parse(stdout.toString());
 		var stdout   = stdout[0];
 		var fileDate = false;
