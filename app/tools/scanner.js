@@ -96,7 +96,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 				eventInfo[eventDir]['files'].push(fileName);
 
 				if (fileExt && fileExt.match(imageTypes)) {
-					genThumbnails(eventName, eventDir, fileName, function() {
+					genThumbnail(eventName, eventDir, fileName, function() {
 						return next();
 					});
 				} else {
@@ -183,7 +183,7 @@ function getFileDate(eventDir, fileName, callback) {
 	}
 }
 
-function genThumbnails(eventName, eventDir, fileName, callback) {
+function genThumbnail(eventName, eventDir, fileName, callback) {
 	var filePath = eventDir + slash + fileName;
 	var fileExt  = getFileExt(fileName);
 
