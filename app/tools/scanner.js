@@ -36,7 +36,7 @@ fs.readdir(Config.pictures_dir, function(err, years) {
 				async.eachLimit( events, 3, function iter(eventName, nextEvent) {
 					var eventDir = Config.pictures_dir + slash + year + slash + eventName;
 
-					brushEventFiles(eventDir, eventName, function() {
+					scanEventFiles(eventDir, eventName, function() {
 						nextEvent();
 					});
 				});
@@ -49,7 +49,7 @@ fs.readdir(Config.pictures_dir, function(err, years) {
 
 
 
-function brushEventFiles(eventDir, eventName, next_event) {
+function scanEventFiles(eventDir, eventName, next_event) {
 	eventInfo[eventDir]          = [];
 	eventInfo[eventDir]['files'] = [];
 
@@ -94,7 +94,13 @@ function brushEventFiles(eventDir, eventName, next_event) {
 				eventInfo[eventDir]['end']   = eventEnd;
 				eventInfo[eventDir]['files'].push(fileName);
 
-				return next();
+				if (fileExt && fileExt.match(imageTypes)) {
+					genThumbnails(eventName, eventDir, fileName, function() {
+						return next();
+					});
+				} else {
+					return next();
+				}
 			});
 		},
 		function done(err) {
@@ -170,6 +176,34 @@ function getFileDate(eventDir, fileName, callback) {
 			callback(fileDate);
 		});
 	}
+}
+
+function genThumbnails(eventName, eventDir, fileName, callback) {
+	var filePath = eventDir + slash + fileName;
+	var fileExt  = getFileExt(fileName);
+
+	async.eachLimit(Config.thumbs.sizes, 4,
+		function iter(size, next) {
+			var options = [
+				'-define', 'jpeg:size=' + size,
+				' -gravity', 'center',
+				'-thumbnail', size + '^',
+				'-extent', size,
+				'-auto-orient',
+				filePath,
+				Config.thumbs.dir + slash + eventName + slash + fileName + '-' + size + '.' + fileExt
+			];
+			console.log(options);
+
+			child_process.execFile(Config.cli.convert, options, {}, function(err, stdout) {
+				console.log(stdout);
+				next();
+			});
+		},
+		function done() {
+			callback();
+		}
+	);
 }
 
 
