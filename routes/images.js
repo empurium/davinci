@@ -2,11 +2,11 @@ var Config = require('../app/config');
 var mongo  = require('../app/db/mongo');
 var fs     = require('fs');
 
-var thumbs = module.exports = {};
+var images = module.exports = {};
 
 var slash  = Config.slash;
 
-thumbs.serve = function(req, res) {
+images.thumb = function(req, res) {
 	var year    = req.params.year;
 	var month   = req.params.month;
 	var slug    = req.params.slug;
@@ -35,6 +35,11 @@ thumbs.serve = function(req, res) {
 		}
 	});
 }
+
+images.view = function(req, res) {
+
+}
+
 
 function getFileExt(fileName) {
 	var x = fileName.match(/\.(\w{3,4})$/);
