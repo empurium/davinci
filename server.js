@@ -32,7 +32,9 @@ app.get('/login', routes.root.root);
 //app.post('/login', routes.user.login);
 //app.get('/logout', routes.user.logout);
 
-app.get('/thumb/:year/:month/:slug/:image', routes.thumbs.serve);
+app.get('/thumb/:year/:month/:slug/:image', routes.images.thumb);
+app.get('/:year/:month/:slug/:image', routes.images.view);
+app.get('/:year/:month/:slug', routes.root.event);
 
 
 server.listen(Config.port, Config.host);
