@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+	<script type="text/javascript" src="/js/events.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	{% if event %}
+		{% for file in event.files %}
+			<div class="col-md-3">
+				<div class="well">
+					<a href="/{{ event.slug }}"><img src="/thumb/{{ event.slug }}/{{ file }}?size=200x200" /></a>
+					<p>{{ event.name }}</p>
+				</div>
+			</div>
+		{% endfor %}
+	{% endif %}
+</div>
+{% endblock %}
