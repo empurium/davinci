@@ -10,9 +10,7 @@
 		{% for event in events %}
 			<div class="col-md-3">
 				<div class="well">
-					{% for file in event.files %}
-						<a href="/events/{{ event._id }}"><img src="/thumb/{{ event.slug }}/{{ file }}?size=200x200" /></a>
-					{% endfor %}
+					<a href="/{{ event.slug }}"><img src="/thumb/{{ event.slug }}/{{ event.thumb }}?size=200x200" /></a>
 					<p>{{ event.name }}</p>
 				</div>
 			</div>
