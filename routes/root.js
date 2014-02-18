@@ -4,8 +4,8 @@ var mongo  = require('../app/db/mongo');
 var root = module.exports = {};
 
 root.root = function(req, res) {
-	if (req.session && req.session.user_id) {
-		mongo.db.collection(Config.mongo.db)
+//	if (req.session && req.session.user_id) {
+		mongo.db.collection('events')
 			.find()
 			.limit(50)
 			.toArray(function(err, events) {
@@ -13,7 +13,7 @@ root.root = function(req, res) {
 					events: events
 				});
 		});
-	} else {
-		res.render('login.html');
-	}
+//	} else {
+//		res.render('login.html');
+//	}
 }
