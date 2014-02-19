@@ -1,1 +1,24 @@
-!function(){var a=Handlebars.template,l=Handlebars.templates=Handlebars.templates||{};l["pic-grid"]=a(function(a,l,s,t,e){this.compilerInfo=[4,">= 1.0.0"],s=this.merge(s,a.helpers),e=e||{};var h,i,c="",d="function",n=this.escapeExpression;return c+='<div class="col-md-3">\n	<div class="well pic-grid" data-url="',(i=s.slug)?h=i.call(l,{hash:{},data:e}):(i=l&&l.slug,h=typeof i===d?i.call(l,{hash:{},data:e}):i),c+=n(h)+'">\n		<img src="/thumb/',(i=s.slug)?h=i.call(l,{hash:{},data:e}):(i=l&&l.slug,h=typeof i===d?i.call(l,{hash:{},data:e}):i),c+=n(h)+"/",(i=s.thumb)?h=i.call(l,{hash:{},data:e}):(i=l&&l.thumb,h=typeof i===d?i.call(l,{hash:{},data:e}):i),c+=n(h)+'?size=220x220" />\n	</div>\n</div>\n'})}();
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['pic-grid'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"pic-grid\" data-url=\"";
+  if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">\n	<img class=\"img-rounded\" src=\"/thumb/";
+  if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "/";
+  if (helper = helpers.thumb) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.thumb); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "?size=220x220\" />\n</div>\n";
+  return buffer;
+  });
+})();

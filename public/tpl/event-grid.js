@@ -1,1 +1,28 @@
-!function(){var a=Handlebars.template,l=Handlebars.templates=Handlebars.templates||{};l["event-grid"]=a(function(a,l,t,e,s){this.compilerInfo=[4,">= 1.0.0"],t=this.merge(t,a.helpers),s=s||{};var h,n,d="",c="function",i=this.escapeExpression;return d+='<div class="col-md-3">\n	<div class="well event-grid" data-url="',(n=t.slug)?h=n.call(l,{hash:{},data:s}):(n=l&&l.slug,h=typeof n===c?n.call(l,{hash:{},data:s}):n),d+=i(h)+'">\n		<img src="/thumb/',(n=t.slug)?h=n.call(l,{hash:{},data:s}):(n=l&&l.slug,h=typeof n===c?n.call(l,{hash:{},data:s}):n),d+=i(h)+"/",(n=t.thumb)?h=n.call(l,{hash:{},data:s}):(n=l&&l.thumb,h=typeof n===c?n.call(l,{hash:{},data:s}):n),d+=i(h)+'?size=220x220" />\n		<p>',(n=t.name)?h=n.call(l,{hash:{},data:s}):(n=l&&l.name,h=typeof n===c?n.call(l,{hash:{},data:s}):n),d+=i(h)+"</p>\n	</div>\n</div>\n"})}();
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['event-grid'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"event-grid\" data-url=\"";
+  if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">\n	<img class=\"img-rounded\" src=\"/thumb/";
+  if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "/";
+  if (helper = helpers.thumb) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.thumb); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "?size=220x220\" />\n	<h5>";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h5>\n</div>\n";
+  return buffer;
+  });
+})();
