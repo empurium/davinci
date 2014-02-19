@@ -4,7 +4,7 @@ var mongo  = require('../app/db/mongo');
 var events = module.exports = {};
 
 events.events = function(req, res) {
-	if ( ! req.xhr ) { res.render('pictures.html'); }
+	if ( ! req.xhr ) { res.render('pictures.html'); return; }
 
 	mongo.db.collection('events')
 		.find()
@@ -16,7 +16,7 @@ events.events = function(req, res) {
 }
 
 events.event = function(req, res) {
-	if ( ! req.xhr ) { res.render('pictures.html'); }
+	if ( ! req.xhr ) { res.render('pictures.html'); return; }
 
 	var year    = req.params.year;
 	var month   = req.params.month;

@@ -4,7 +4,7 @@ var mongo  = require('../app/db/mongo');
 var root = module.exports = {};
 
 root.root = function(req, res) {
-	res.render('pictures.html');
+	if ( ! req.xhr ) { res.render('pictures.html'); return; }
 
 //	if (req.session && req.session.user_id) {
 //	} else {
