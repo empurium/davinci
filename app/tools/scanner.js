@@ -34,15 +34,19 @@ fs.readdir(Config.pictures_dir, function(err, years) {
 			fs.readdir(yearDir, function(err, events) {
 				if (err) throw err;
 
-				async.eachLimit( events, 3, function iter(eventName, nextEvent) {
-					var eventDir = Config.pictures_dir + slash + year + slash + eventName;
+				async.eachLimit( events, 3,
+					function iter(eventName, nextEvent) {
+						var eventDir = Config.pictures_dir + slash + year + slash + eventName;
 
-					scanEventFiles(eventDir, eventName, function() {
-						nextEvent();
-					});
-				});
+						scanEventFiles(eventDir, eventName, function() {
+							nextEvent();
+						});
+					},
+					function done(err) {
+						nextYear();
+					}
+				);
 			});
-			//nextYear(); // Where to call this?
 		});
 	}
 );
