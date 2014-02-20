@@ -7,7 +7,7 @@ events.events = function(req, res) {
 	if ( ! req.xhr ) { res.render('pictures.html'); return; }
 
 	mongo.db.collection('events')
-		.find()
+		.find({ thumb: { $not: /(mpg|mov)$/i } })
 		.limit(50)
 		.sort({ begins: -1 })
 		.toArray(function(err, events) {
