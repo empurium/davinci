@@ -12,7 +12,7 @@ events.events = function(req, res) {
 	}
 
 	mongo.db.collection('events')
-		.find({ begins: { $lte: eventsBegin }, thumb: { $not: /(mpg|mov)$/i } })
+		.find({ begins: { $lte: eventsBegin }, thumb: { $not: /(mpg|mov|png)$/i } })
 		.limit(50)
 		.sort({ begins: -1 })
 		.toArray(function(err, events) {
