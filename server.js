@@ -37,6 +37,7 @@ app.get('/events/recent', routes.events.events);
 
 app.get('/:year/:month/:slug/:image/thumb', routes.images.thumb);
 app.get('/:year/:month/:slug/:image/view', routes.images.view);
+app.get('/:year/:month/:slug/:image/view/full', routes.images.view);
 
 
 server.listen(Config.port, Config.host);
