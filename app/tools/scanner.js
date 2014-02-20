@@ -115,6 +115,10 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 			var eventSlug = year + '/' + month + '/';
 			    eventSlug = eventSlug + eventName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
+			if (eventInfo[eventDir]['files'].length == 0) {
+				nextEvent();
+			}
+
 			console.log(eventName + ' (' + files.length + ' files):');
 			console.log(' -> started ' + eventStart);
 			console.log(' -> ended   ' + eventEnd);
