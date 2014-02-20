@@ -9,8 +9,8 @@ Config.cookie_secret  = 'quesadillatacos';
 Config.slash = '/';
 
 // Directory containing Events pictures, no trailing slash
-//Config.pictures_dir = '/space/Pictures/Permanent';
-Config.pictures_dir = 'Pictures';
+Config.pictures_dir = '/space/Pictures';
+//Config.pictures_dir = 'Pictures';
 
 // Directory to save the thumbnails. Could change to S3 in the future
 Config.thumbs = {
