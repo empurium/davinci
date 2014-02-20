@@ -4,6 +4,12 @@ $(function() {
 	$.address.externalChange(function(event) {
 		fetchPics();
 	});
+
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			removePicture();
+		}
+	})
 });
 
 //
@@ -41,7 +47,6 @@ function fetchEventPics(url) {
 	$.ajax({
 		url: url,
 		success: function(pics) {
-			updateUrl(url);
 			$('div#grid-view').html('');
 			for (i = 0; i < pics.files.length; i++) {
 				$('div#grid-view').append(Handlebars.templates['pic-grid']({
@@ -49,13 +54,38 @@ function fetchEventPics(url) {
 					thumb: pics.files[i]
 				}));
 			}
+			bindEventPics();
+			updateUrl(url);
 		}
 	});
 }
 
+//
+// Display a very fast overlay that renders the pictures.
+//
+function displayPicture(pic) {
+	$('div#grid-view').prepend('<div id="overlay"></div>');
+	$('div#grid-view').prepend('<div id="pic-view"><img src="' + pic + '" /></div>');
+	$('div#grid-view div#overlay').click(function() {
+		removePicture();
+	});
+}
+
+function removePicture() {
+	$('div#grid-view div#overlay').remove();
+	$('div#grid-view div#pic-view').remove();
+}
+
+
 function bindEventThumbs() {
 	$('div#grid-view div').click(function() {
 		fetchEventPics($(this).attr('data-url'));
+	});
+}
+
+function bindEventPics() {
+	$('div.pic-grid').click(function() {
+		displayPicture($(this).attr('data-pic-url'));
 	});
 }
 
