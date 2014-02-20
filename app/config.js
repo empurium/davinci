@@ -1,6 +1,6 @@
 var Config = module.exports = {};
 
-Config.port = 3000;
+Config.port = 3001;
 Config.host = 'localhost';
 Config.session_secret = 'porkchopsandwiches';
 Config.cookie_secret  = 'quesadillatacos';

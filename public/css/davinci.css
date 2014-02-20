@@ -1,4 +1,8 @@
 body { background-color: #222; }
+
+.navbar { border-radius: 0px; margin-bottom: 5px; }
+input#search-box { width: 400px; }
+
 div.event-grid { position: relative; float: left; width: 220px; height: 300px; margin: 10px; }
 div.event-grid img { box-shadow: 0px 0px 10px 2px #000; }
 div.event-grid small { position: absolute; top: 5px; right: 5px; z-index: 100; color: #ccc; background-color: #222; opacity: 0.70; padding: 2px; font-weight: bold; border-radius: 3px; }
