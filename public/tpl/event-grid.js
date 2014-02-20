@@ -18,7 +18,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (helper = helpers.thumb) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.thumb); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "?size=220x220\" />\n	<h5>";
+    + "?size=220x220\" />\n	<small>"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.files)),stack1 == null || stack1 === false ? stack1 : stack1.length)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</small>\n	<h5>";
   if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
