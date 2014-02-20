@@ -37,7 +37,33 @@ images.thumb = function(req, res) {
 }
 
 images.view = function(req, res) {
+	var year    = req.params.year;
+	var month   = req.params.month;
+	var slug    = req.params.slug;
+	var file    = req.params.image;
+	var size    = req.query.size;
+	var fileExt = getFileExt(file);
 
+	var fullSlug = year + '/' + month + '/' + slug;
+
+	mongo.db.collection('events').findOne({ slug: fullSlug }, function(err, event) {
+		if (err) throw err;
+
+		if ( ! event ) {
+			res.end('Could not find that event.');
+		}
+
+		var filePath = Config.pictures_dir + slash + year + slash + event.name + slash + file;
+
+		if (fs.existsSync(filePath)) {
+			var img = fs.readFileSync(filePath);
+
+			res.writeHead(200, {'Content-Type': 'image/jpg' });
+			res.end(img, 'binary');
+		} else {
+			res.end('Could not find image: ' + filePath);
+		}
+	});
 }
 
 
