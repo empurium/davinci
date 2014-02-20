@@ -53,10 +53,6 @@ function fetchEventPics(url) {
 	});
 }
 
-//
-// Set up the thumbnails so they're clickable without using
-// a href, since we're a nice single-page app.
-//
 function bindEventThumbs() {
 	$('div#grid-view div').click(function() {
 		fetchEventPics($(this).attr('data-url'));
