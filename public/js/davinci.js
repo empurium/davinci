@@ -8,6 +8,7 @@ $(function() {
 	$(document).keyup(function(e) {
 		if (e.keyCode == 27) { // 'esc'
 			removeTheater();
+			$('input#search-box').blur();
 		}
 
 		if (e.keyCode == 70) { // 'f'
@@ -20,7 +21,6 @@ $(function() {
 
 		if (searchBox.val().length == 0) {
 			var url = '/events/recent/';
-			//searchBox.blur();
 		} else {
 			var url = '/events/search/';
 		}
