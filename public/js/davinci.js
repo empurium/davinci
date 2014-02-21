@@ -14,7 +14,6 @@ $(function() {
 
 		if (isSearchKeystroke(e.keyCode)) {
 			if ( ! $('input#search-box').is(':focus') ) {
-				$('body').scrollTop(0);
 				$('input#search-box').val('');
 				$('input#search-box').focus();
 			}
@@ -39,7 +38,7 @@ $(function() {
 					},
 					success: function(events) {
 						$('div#grid-view').html('');
-						$('body').scrollTop(0);
+						window.scrollTo(0, 0);
 						for (i = 0; i < events.length; i++) {
 							$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
 						}
@@ -86,6 +85,7 @@ function fetchEventPics(url) {
 	$.ajax({
 		url: url,
 		success: function(pics) {
+			window.scrollTo(0, 0);
 			$('div#grid-view').html('');
 			for (i = 0; i < pics.files.length; i++) {
 				$('div#grid-view').append(Handlebars.templates['pic-grid']({
@@ -114,6 +114,7 @@ var delayedSearch = function() {
 // Display a very fast overlay that renders the pictures.
 //
 function displayTheater(pic) {
+	window.scrollTo(0, 0);
 	$('div#grid-view').prepend('<div id="overlay"></div>');
 	$('div#grid-view').prepend('<div id="pic-view"><img src="' + pic + '" /></div>');
 	$('div#grid-view div#overlay').click(function() {
