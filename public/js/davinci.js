@@ -32,7 +32,6 @@ $(function() {
 
 		if (isSearchKeystroke(e.keyCode)) {
 			delayedSearch(function() {
-				console.log('Timer done! Searching');
 				$.ajax({
 					url: '/events/search/',
 					data: {
@@ -40,7 +39,7 @@ $(function() {
 					},
 					success: function(events) {
 						$('div#grid-view').html('');
-						window.scrollTo(0, 0);
+						$('body').scrollTop(0);
 						for (i = 0; i < events.length; i++) {
 							$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
 						}
