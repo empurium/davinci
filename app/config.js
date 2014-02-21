@@ -38,14 +38,6 @@ Config.mongo = {
   db:   'davinci'
 }
 
-Config.project = {
-	name:             'DaVinci',
-	name_lc:          'davinci',
-	domain:           'davinci.com',
-	domain_pretty:    'davinci.com',
-	site_title:       'DaVinci Web Gallery'
-}
-
 Config.daemons = {
 	root:             '/home/empurium/code/davinci/app/daemons/'
 }
