@@ -1,8 +1,19 @@
+var lastLoadedEvent = new Date();
+
 $(function() {
 	fetchPics();
 
 	$.address.externalChange(function(event) {
 		fetchPics();
+	});
+
+	$(window).scroll(function() {
+		console.log($(window).scrollTop());
+		console.log($(document).height());
+		var scrollPercent = ($(window).scrollTop() / $(document).height()) * 100;
+		if (scrollPercent >= 50) {
+			fetchMoreEvents(lastLoadedEvent);
+		}
 	});
 
 	$(document).keydown(function(e) {
@@ -65,6 +76,7 @@ function fetchPics() {
 			success: function(events) {
 				for (i = 0; i < events.length; i++) {
 					$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
+					lastLoadedEvent = events[i].begins;
 				}
 				bindEventThumbs();
 			}
@@ -76,6 +88,25 @@ function fetchPics() {
 		var url = top.location.pathname.replace('^#/', '');
 		fetchEventPics(url);
 	}
+}
+
+//
+// Fetch more pics in the following events as you scroll down.
+//
+function fetchMoreEvents(lastEventDate) {
+	$.ajax({
+		url: '/events/loadsince/',
+		data: {
+			begins: lastEventDate
+		},
+		success: function(events) {
+			for (i = 0; i < events.length; i++) {
+				$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
+				lastLoadedEvent = events[i].begins;
+			}
+			bindEventThumbs();
+		}
+	});
 }
 
 //
