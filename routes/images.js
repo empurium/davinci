@@ -41,7 +41,6 @@ images.view = function(req, res) {
 	var month   = req.params.month;
 	var slug    = req.params.slug;
 	var file    = req.params.image;
-	var size    = req.query.size;
 	var fileExt = getFileExt(file);
 
 	var fullSlug = year + '/' + month + '/' + slug;
