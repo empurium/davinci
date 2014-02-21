@@ -3,7 +3,24 @@ var mongo  = require('../app/db/mongo');
 
 var events = module.exports = {};
 
-events.events = function(req, res) {
+// NOTE: These NEED to be removed once thumbnail generation is working for them:
+// thumb: { $not: /(mpg|mov|png)$/i }
+
+
+events.search = function(req, res) {
+	if ( ! req.xhr ) { res.render('pictures.html'); return; }
+	var searchQry = new RegExp(req.query.search, 'i');
+
+	mongo.db.collection('events')
+		.find({ name: searchQry, thumb: { $not: /(mpg|mov|png)$/i } })
+		.limit(50)
+		.sort({ begins: -1 })
+		.toArray(function(err, events) {
+			res.send(events);
+	});
+}
+
+events.recent = function(req, res) {
 	if ( ! req.xhr ) { res.render('pictures.html'); return; }
 
 	var eventsBegin = new Date();
