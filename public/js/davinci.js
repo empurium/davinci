@@ -5,18 +5,23 @@ $(function() {
 		fetchPics();
 	});
 
-	$(document).keyup(function(e) {
+	$(document).keydown(function(e) {
 		if (e.keyCode == 27) { // 'esc'
 			removeTheater();
+			$('input#search-box').val('');
 			$('input#search-box').blur();
 		}
 
-		if (e.keyCode == 70) { // 'f'
-			$('input#search-box').focus();
+		if (isSearchKeystroke(e.keyCode)) {
+			if ( ! $('input#search-box').is(':focus') ) {
+				$('body').scrollTop(0);
+				$('input#search-box').val('');
+				$('input#search-box').focus();
+			}
 		}
 	});
 
-	$('input#search-box').keyup(function(e) {
+	$('input#search-box').keydown(function(e) {
 		var searchBox = $('input#search-box');
 
 		if (searchBox.val().length == 0) {
@@ -124,7 +129,7 @@ function removeTheater() {
 
 
 function bindEventThumbs() {
-	$('div#grid-view div').click(function() {
+	$('div.event-grid img').click(function() {
 		fetchEventPics($(this).attr('data-url'));
 	});
 }
