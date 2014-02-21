@@ -199,15 +199,27 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 		function iter(size, next) {
 			var thumbPath = Config.thumbs.path + slash + eventName;
 			var thumbFile = thumbPath + slash + fileName + '-' + size + '.' + fileExt;
-			var options = [
-				'-define', 'jpeg:size=' + size,
-				'-gravity', 'center',
-				'-thumbnail', size + '^',
-				'-extent', size,
-				'-auto-orient',
-				filePath,
-				thumbFile
-			];
+
+			// square thumbnails
+			if (size.match(/x/)) {
+				var options = [
+					'-gravity', 'center',
+					'-thumbnail', size + '^',
+					'-extent', size,
+					'-auto-orient',
+					filePath,
+					thumbFile
+				];
+			}
+			// not square, so we're resizing
+			else {
+				var options = [
+					'-thumbnail', size,
+					'-auto-orient',
+					filePath,
+					thumbFile
+				];
+			}
 
 			mkdirp(thumbPath, function(err) {
 				if (err) throw err;

@@ -10,7 +10,6 @@ Config.slash = '/';
 
 // Directory containing Events pictures, no trailing slash
 Config.pictures_dir = '/space/Pictures';
-//Config.pictures_dir = 'Pictures';
 
 // Directory to save the thumbnails. Could change to S3 in the future
 Config.thumbs = {
@@ -18,8 +17,8 @@ Config.thumbs = {
 	sizes: [
 		'128x128',
 		'220x220',
-		//'640x640',
-		//'960x960'
+		'640',
+		'1024'
 	]
 }
 
