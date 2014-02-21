@@ -144,18 +144,22 @@ var delayedSearch = function() {
 //
 // Display a very fast 'theater' that displays the pictures/videos.
 //
-function displayTheater(pic) {
+function displayTheater(url, fullUrl) {
 	window.scrollTo(0, 0);
+	$('body').css('overflow-y', 'hidden');
 	$('div#grid-view').prepend('<div id="mask"></div>');
-	$('div#grid-view').prepend('<div id="theater"><img src="' + pic + '" /></div>');
-	$('div#grid-view div#mask').click(function() {
+	$('div#grid-view').prepend('<div id="theater-controls"><a href="' + fullUrl + '" target="_blank">Full Resolution</a></div>');
+	$('div#grid-view').prepend('<div id="theater"><img src="' + url + '" /></div>');
+	$('div#grid-view div#mask, div#grid-view div#theater').click(function() {
 		removeTheater();
 	});
 }
 
 function removeTheater() {
-	$('div#grid-view div#mask').remove();
+	$('body').css('overflow-y', 'scroll');
 	$('div#grid-view div#theater').remove();
+	$('div#grid-view div#theater-controls').remove();
+	$('div#grid-view div#mask').remove();
 }
 
 
@@ -167,7 +171,7 @@ function bindEventThumbs() {
 
 function bindEventPics() {
 	$('div.pic-grid').click(function() {
-		displayTheater($(this).attr('data-pic-url'));
+		displayTheater($(this).attr('data-media-url'), $(this).attr('data-media-full-url'));
 	});
 }
 
