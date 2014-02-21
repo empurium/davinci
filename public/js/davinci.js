@@ -1,5 +1,3 @@
-var lastLoadedEvent = new Date();
-
 $(function() {
 	fetchPics();
 
@@ -8,11 +6,11 @@ $(function() {
 	});
 
 	$(window).scroll(function() {
-		console.log($(window).scrollTop());
-		console.log($(document).height());
-		var scrollPercent = ($(window).scrollTop() / $(document).height()) * 100;
-		if (scrollPercent >= 50) {
-			fetchMoreEvents(lastLoadedEvent);
+		var loadMore = $(document).height() - ($(window).height() * 2);
+		if ($(window).scrollTop() >= loadMore) {
+			if (top.location.pathname === '/') {
+				fetchMoreEvents(lastLoadedEvent);
+			}
 		}
 	});
 

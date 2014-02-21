@@ -40,11 +40,10 @@ events.recent = function(req, res) {
 events.loadsince = function(req, res) {
 	if ( ! req.xhr ) { res.render('pictures.html'); return; }
 
-	console.log(req.query.begins);
 	eventsBegin = new Date(req.query.begins);
 
 	mongo.db.collection('events')
-		.find({ begins: { $lte: eventsBegin }, thumb: { $not: /(mpg|mov|png)$/i } })
+		.find({ begins: { $lt: eventsBegin }, thumb: { $not: /(mpg|mov|png)$/i } })
 		.limit(50)
 		.sort({ begins: -1 })
 		.toArray(function(err, events) {
