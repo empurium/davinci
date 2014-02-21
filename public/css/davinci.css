@@ -1,4 +1,4 @@
-body { background-color: #222; }
+body { background-color: #222; padding-top: 60px; }
 
 .navbar { border-radius: 0px; margin-bottom: 5px; }
 input#search-box { width: 400px; }
