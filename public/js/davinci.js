@@ -6,10 +6,44 @@ $(function() {
 	});
 
 	$(document).keyup(function(e) {
-		if (e.keyCode == 27) {
-			removePicture();
+		if (e.keyCode == 27) { // 'esc'
+			removeTheater();
 		}
-	})
+
+		if (e.keyCode == 70) { // 'f'
+			$('input#search-box').focus();
+		}
+	});
+
+	$('input#search-box').keyup(function(e) {
+		var searchBox = $('input#search-box');
+
+		if (searchBox.val().length == 0) {
+			var url = '/events/recent/';
+			//searchBox.blur();
+		} else {
+			var url = '/events/search/';
+		}
+
+		if (isSearchKeystroke(e.keyCode)) {
+			delayedSearch(function() {
+				console.log('Timer done! Searching');
+				$.ajax({
+					url: '/events/search/',
+					data: {
+						search: searchBox.val()
+					},
+					success: function(events) {
+						$('div#grid-view').html('');
+						for (i = 0; i < events.length; i++) {
+							$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
+						}
+						bindEventThumbs();
+					}
+				});
+			});
+		}
+	});
 });
 
 //
@@ -61,17 +95,28 @@ function fetchEventPics(url) {
 }
 
 //
+// Search for events. Delayed for fast typing.
+//
+var delayedSearch = function() {
+	var timer = 0;
+	return function(callback) {
+		clearTimeout(timer);
+		timer = setTimeout(callback, 500);
+	}
+}();
+
+//
 // Display a very fast overlay that renders the pictures.
 //
-function displayPicture(pic) {
+function displayTheater(pic) {
 	$('div#grid-view').prepend('<div id="overlay"></div>');
 	$('div#grid-view').prepend('<div id="pic-view"><img src="' + pic + '" /></div>');
 	$('div#grid-view div#overlay').click(function() {
-		removePicture();
+		removeTheater();
 	});
 }
 
-function removePicture() {
+function removeTheater() {
 	$('div#grid-view div#overlay').remove();
 	$('div#grid-view div#pic-view').remove();
 }
@@ -85,7 +130,7 @@ function bindEventThumbs() {
 
 function bindEventPics() {
 	$('div.pic-grid').click(function() {
-		displayPicture($(this).attr('data-pic-url'));
+		displayTheater($(this).attr('data-pic-url'));
 	});
 }
 
@@ -94,4 +139,8 @@ function updateUrl(url) {
 	$.address.tracker(url);
 	$.address.update();
 	//window.history.pushState({}, "", '/' + url);
+}
+
+function isSearchKeystroke(key) {
+	return (key >= 48 && key <= 57) || key == 8 || key == 189 || key == 32 || (key >= 96 && key <= 105) || (key >= 65 && key <= 90) || key == 8 || key == 32 || key == 190;
 }
