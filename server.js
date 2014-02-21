@@ -33,7 +33,8 @@ app.get('/', routes.root.root);
 //app.get('/logout', routes.user.logout);
 
 app.get('/:year/:month/:slug', routes.events.event);
-app.get('/events/recent', routes.events.events);
+app.get('/events/recent', routes.events.recent);
+app.get('/events/search', routes.events.search);
 
 app.get('/:year/:month/:slug/:image/thumb', routes.images.thumb);
 app.get('/:year/:month/:slug/:image/view', routes.images.view);
