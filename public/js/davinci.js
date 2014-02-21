@@ -142,20 +142,20 @@ var delayedSearch = function() {
 }();
 
 //
-// Display a very fast overlay that renders the pictures.
+// Display a very fast 'theater' that displays the pictures/videos.
 //
 function displayTheater(pic) {
 	window.scrollTo(0, 0);
-	$('div#grid-view').prepend('<div id="overlay"></div>');
-	$('div#grid-view').prepend('<div id="pic-view"><img src="' + pic + '" /></div>');
-	$('div#grid-view div#overlay').click(function() {
+	$('div#grid-view').prepend('<div id="mask"></div>');
+	$('div#grid-view').prepend('<div id="theater"><img src="' + pic + '" /></div>');
+	$('div#grid-view div#mask').click(function() {
 		removeTheater();
 	});
 }
 
 function removeTheater() {
-	$('div#grid-view div#overlay').remove();
-	$('div#grid-view div#pic-view').remove();
+	$('div#grid-view div#mask').remove();
+	$('div#grid-view div#theater').remove();
 }
 
 
