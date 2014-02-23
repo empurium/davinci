@@ -1,9 +1,13 @@
 $(function() {
 	fetchPics();
 
+	Backbone.history.start({ pushState: true });
+
+	/*
 	$.address.externalChange(function(event) {
 		fetchPics();
 	});
+	*/
 
 	$(window).scroll(function() {
 		var loadMore = $(document).height() - ($(window).height() * 2);
@@ -147,6 +151,7 @@ var delayedSearch = function() {
 function displayTheater(url, fullUrl) {
 	window.scrollTo(0, 0);
 	$('body').css('overflow-y', 'hidden');
+	$('nav').css('display', 'none');
 	$('div#grid-view').prepend('<div id="mask"></div>');
 	$('div#grid-view').prepend('<div id="theater-controls"><a href="' + fullUrl + '" target="_blank">Full Resolution</a></div>');
 	$('div#grid-view').prepend('<div id="theater"><img src="' + url + '" /></div>');
@@ -157,6 +162,7 @@ function displayTheater(url, fullUrl) {
 
 function removeTheater() {
 	$('body').css('overflow-y', 'scroll');
+	$('nav').css('display', 'block');
 	$('div#grid-view div#theater').remove();
 	$('div#grid-view div#theater-controls').remove();
 	$('div#grid-view div#mask').remove();
@@ -176,10 +182,7 @@ function bindEventPics() {
 }
 
 function updateUrl(url) {
-	$.address.state('/' + url);
-	$.address.tracker(url);
-	$.address.update();
-	//window.history.pushState({}, "", '/' + url);
+	Backbone.history.navigate(url);
 }
 
 function isSearchKeystroke(key) {
