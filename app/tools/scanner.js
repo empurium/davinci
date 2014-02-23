@@ -79,7 +79,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 			var fileExt = getFileExt(fileName);
 
 			getFileDate(eventDir, fileName, function(fileDate) {
-				if (fileDate === false || fileName === '.picasa.ini') {
+				if (fileDate === false || fileName === '.picasa.ini' || fileName === '.picasaoriginals') {
 					return next();
 				}
 
