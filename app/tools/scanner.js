@@ -6,7 +6,7 @@ var child_process = require('child_process');
 var mkdirp        = require('mkdirp');
 
 var slash       = Config.slash;
-var imageTypes  = /jpg/i;
+var imageTypes  = /(jpg|png)/i;
 var videoTypes  = /(mp4|mov|mts|mpg)/i;
 
 var eventInfo = [];
