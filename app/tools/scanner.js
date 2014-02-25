@@ -105,88 +105,88 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 			});
 		}
 
-		if (scanFiles) {
-			async.eachLimit(files, 5,
-				function iter(fileName, next) {
-					var fileExt = getFileExt(fileName);
-
-					getFileDate(eventDir, fileName, function(fileDate) {
-						if (fileDate === false || fileName === '.picasa.ini' || fileName === '.picasaoriginals') {
-							return next();
-						}
-
-						if (fileDate < eventStart) {
-							eventStart = fileDate;
-							eventEnd   = eventStart;
-						}
-
-						// only set the event end date if it's a file with EXIF
-						if (fileExt && fileExt.match(Config.imageTypes)) {
-							if (fileDate > eventEnd) {
-								eventEnd = fileDate;
-							}
-						}
-
-						eventInfo[eventDir]['start'] = eventStart;
-						eventInfo[eventDir]['end']   = eventEnd;
-						eventInfo[eventDir]['files'].push(fileName);
-
-						if (fileExt) {
-							genThumbnail(eventName, eventDir, fileName, function() {
-								return next();
-							});
-						} else {
-							return next();
-						}
-					});
-				},
-				function done(err) {
-					var year  = eventStart.getFullYear();
-					var month = eventStart.getMonth() * 1 + 1;
-
-					var eventSlug = year + '/' + month + '/';
-					    eventSlug = eventSlug + eventName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-
-					if (eventInfo[eventDir]['files'].length == 0) {
-						nextEvent();
-					}
-
-					console.log(eventName + ' (' + files.length + ' files):');
-					console.log(' -> started ' + eventStart);
-					console.log(' -> ended   ' + eventEnd);
-					if (eventInfo[eventDir]['skip_videos'] && eventInfo[eventDir]['videos_exist']) {
-						console.log(' -> (JPG found - skipped video files)');
-					}
-
-					mongo.db.collection('events').update({
-						name:  eventName,
-						path:  eventDir
-					},
-					{
-						name:    eventName,
-						slug:    eventSlug,
-						year:    year,
-						month:   month,
-						begins:  eventStart,
-						ends:    eventEnd,
-						path:    eventDir,
-						thumb:   eventInfo[eventDir]['files'][0],
-						files:   eventInfo[eventDir]['files']
-					},
-					{
-						upsert: true
-					},
-					function (err, event) {
-						if (err) throw err;
-
-						nextEvent();
-					});
-				}
-			);
-		} else {
+		if ( ! scanFiles ) {
 			//console.log(eventName + ' has no new files.');
-			nextEvent();
+			return nextEvent();
 		}
+
+		async.eachLimit(files, 5,
+			function iter(fileName, next) {
+				var fileExt = getFileExt(fileName);
+				eventInfo[eventDir]['files'].push(fileName);
+
+				getFileDate(eventDir, fileName, function(fileDate) {
+					if (fileDate === false) {
+						return next();
+					}
+
+					if (fileDate < eventStart) {
+						eventStart = fileDate;
+						eventEnd   = eventStart;
+					}
+
+					// only set the event end date if it's a file with EXIF
+					if (fileExt && fileExt.match(Config.imageTypes)) {
+						if (fileDate > eventEnd) {
+							eventEnd = fileDate;
+						}
+					}
+
+					eventInfo[eventDir]['start'] = eventStart;
+					eventInfo[eventDir]['end']   = eventEnd;
+
+					if (fileExt) {
+						genThumbnail(eventName, eventDir, fileName, function() {
+							next();
+						});
+					} else {
+						next();
+					}
+				});
+			},
+			function done(err) {
+				var year  = eventStart.getFullYear();
+				var month = eventStart.getMonth() * 1 + 1;
+
+				var eventSlug = year + '/' + month + '/';
+				    eventSlug = eventSlug + eventName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+
+				if (eventInfo[eventDir]['files'].length == 0) {
+					nextEvent();
+				}
+
+				console.log(eventName + ' (' + files.length + ' files):');
+				console.log(' -> started ' + eventStart);
+				console.log(' -> ended   ' + eventEnd);
+				if (eventInfo[eventDir]['skip_videos'] && eventInfo[eventDir]['videos_exist']) {
+					console.log(' -> (JPG found - skipped video files)');
+				}
+
+				mongo.db.collection('events').update({
+					name:  eventName,
+					path:  eventDir
+				},
+				{
+					name:    eventName,
+					slug:    eventSlug,
+					year:    year,
+					month:   month,
+					begins:  eventStart,
+					ends:    eventEnd,
+					path:    eventDir,
+					thumb:   eventInfo[eventDir]['files'][0],
+					files:   eventInfo[eventDir]['files']
+				},
+				{
+					upsert: true
+				},
+				function (err, event) {
+					if (err) throw err;
+				});
+
+				nextEvent();
+			}
+		);
 	});
 }
 
