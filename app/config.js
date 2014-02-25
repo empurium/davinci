@@ -10,7 +10,7 @@ Config.slash = '/';
 
 // File types
 Config.imageTypes = /(jpg|png)/i;
-Config.videoTypes = /(mp4|mov|mts|mpg)/i;
+Config.videoTypes = /(mov|mp4|mpg|avi|mts|3gp|wmv)/i;
 
 // Directory containing Events pictures, no trailing slash
 Config.pictures_dir = '/space/Pictures';
