@@ -26,26 +26,32 @@ fs.readdir(Config.pictures_dir, function(err, years) {
 	// Either way, we would only assume it's an Event if it's a
 	// directory with nothing but files in it (excluding .picasaoriginals)
 
-	async.eachLimit(years, 1, function iter(year, nextYear) {
-		var yearDir = Config.pictures_dir + slash + year;
+	async.eachLimit(years, 1,
+		function iter(year, nextYear) {
+			var yearDir = Config.pictures_dir + slash + year;
 
-			fs.readdir(yearDir, function(err, events) {
-				if (err) throw err;
+				fs.readdir(yearDir, function(err, events) {
+					if (err) throw err;
 
-				async.eachLimit( events, 3,
-					function iter(eventName, nextEvent) {
-						var eventDir = Config.pictures_dir + slash + year + slash + eventName;
+					async.eachLimit( events, 3,
+						function iter(eventName, nextEvent) {
+							var eventDir = Config.pictures_dir + slash + year + slash + eventName;
 
-						scanEventFiles(eventDir, eventName, function() {
-							nextEvent();
-						});
-					},
-					function done(err) {
-						nextYear();
-					}
-				);
-			});
-		});
+							scanEventFiles(eventDir, eventName, function() {
+								nextEvent();
+							});
+						},
+						function done(err) {
+							nextYear();
+						}
+					);
+				});
+			},
+			function done() {
+				console.log('Scan complete!');
+				process.exit();
+			}
+		);
 	}
 );
 
@@ -178,7 +184,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 				}
 			);
 		} else {
-			console.log(eventName + ' has no new files.');
+			//console.log(eventName + ' has no new files.');
 			nextEvent();
 		}
 	});
