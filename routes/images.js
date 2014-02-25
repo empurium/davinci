@@ -24,6 +24,9 @@ images.thumb = function(req, res) {
 		}
 
 		var filePath = Config.thumbs.path + slash + event.name + slash + file + '-' + size + '.' + fileExt;
+		if (fileExt.match(Config.videoTypes)) {
+			filePath = filePath + '.jpg';
+		}
 
 		if (fs.existsSync(filePath)) {
 			var img = fs.readFileSync(filePath);
