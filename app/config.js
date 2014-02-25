@@ -10,7 +10,7 @@ Config.slash = '/';
 
 // Directory containing Events pictures, no trailing slash
 Config.pictures_dir = '/space/Pictures';
-Config.pictures_dir = 'Pictures';
+//Config.pictures_dir = 'Pictures';
 
 // Directory to save the thumbnails. Could change to S3 in the future
 Config.thumbs = {
@@ -35,12 +35,12 @@ Config.cli = {
 	//
 	// convert is part of imagemagick
 	// (apt-get|brew) install imagemagick
-	convert:  '/usr/local/bin/convert'
+	convert:  '/usr/local/bin/convert',
 
 	// used for generating thumbnails of videos
 	//
 	// (apt-get|brew) install ffmpeg
-	convert:  '/usr/bin/ffmpeg'
+	ffmpeg:  '/usr/bin/ffmpeg'
 }
 
 Config.mongo = {
