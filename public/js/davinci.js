@@ -149,12 +149,20 @@ var delayedSearch = function() {
 // Display a very fast 'theater' that displays the pictures/videos.
 //
 function displayTheater(url, fullUrl) {
+	// This should NOT scroll to top.
+	// Calculate scroll position, render on top of current window position.
 	window.scrollTo(0, 0);
+
+	var html = '<img src="' + url + '" />';
+	if (url.match(/\.(mp4|mov|mts|mpg)/i)) {
+		var html = '<video width="720" controls autoplay><source src="' + fullUrl + '" type="video/quicktime">Your browser does not support the video tag.</video>';
+	}
+
 	$('body').css('overflow-y', 'hidden');
 	$('nav').css('display', 'none');
 	$('div#grid-view').prepend('<div id="mask"></div>');
 	$('div#grid-view').prepend('<div id="theater-controls"><a href="' + fullUrl + '" target="_blank">Full Resolution</a></div>');
-	$('div#grid-view').prepend('<div id="theater"><img src="' + url + '" /></div>');
+	$('div#grid-view').prepend('<div id="theater">' + html + '</div>');
 	$('div#grid-view div#mask, div#grid-view div#theater').click(function() {
 		removeTheater();
 	});

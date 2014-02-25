@@ -60,7 +60,14 @@ images.view = function(req, res) {
 		if (fs.existsSync(filePath)) {
 			var img = fs.readFileSync(filePath);
 
-			res.writeHead(200, {'Content-Type': 'image/jpg' });
+			if (fileExt.match(Config.imageTypes)) {
+				res.writeHead(200, {'Content-Type': 'image/jpg' });
+			}
+			// specify with more accuracy: http://webdesign.about.com/od/multimedia/a/mime-types-by-content-type.htm
+			if (fileExt.match(Config.videoTypes)) {
+				res.writeHead(200, {'Content-Type': 'video/quicktime' });
+			}
+
 			res.end(img, 'binary');
 		} else {
 			res.end('Could not find image: ' + filePath);
