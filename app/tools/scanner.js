@@ -99,7 +99,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 				eventInfo[eventDir]['end']   = eventEnd;
 				eventInfo[eventDir]['files'].push(fileName);
 
-				if (fileExt && fileExt.match(imageTypes)) {
+				if (fileExt) {
 					genThumbnail(eventName, eventDir, fileName, function() {
 						return next();
 					});
@@ -195,44 +195,74 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 	var filePath = eventDir + slash + fileName;
 	var fileExt  = getFileExt(fileName);
 
+	var thumbCmd = Config.cli.convert;
+	if (fileExt.match(videoTypes)) {
+		thumbCmd = Config.cli.ffmpeg;
+	}
+
 	async.eachLimit(Config.thumbs.sizes, 5,
 		function iter(size, next) {
-			var thumbPath = Config.thumbs.path + slash + eventName;
-			var thumbFile = thumbPath + slash + fileName + '-' + size + '.' + fileExt;
+			var thumbPath    = Config.thumbs.path + slash + eventName;
+			var thumbFile    = thumbPath + slash + fileName + '-' + size + '.' + fileExt;
+			var dimensions   = size.split('x');
+			var options      = [];
+			var genThumbFile = false;
 
-			// square thumbnails
-			if (size.match(/x/)) {
-				var options = [
-					'-gravity', 'center',
-					'-thumbnail', size + '^',
-					'-extent', size,
-					'-auto-orient',
-					filePath,
-					thumbFile
-				];
-			}
-			// not square, so we're resizing
-			else {
-				var options = [
-					'-thumbnail', size,
-					'-auto-orient',
-					filePath,
-					thumbFile
-				];
-			}
-
-			mkdirp(thumbPath, function(err) {
-				if (err) throw err;
-
-				if ( ! fs.existsSync(thumbFile) ) {
-					child_process.execFile(Config.cli.convert, options, {}, function(err, stdout) {
-						if (err) throw err;
-						next();
-					});
-				} else {
-					next();
+			// video thumbnails (square only)
+			if (fileExt.match(videoTypes)) {
+				if (size.match(/x/)) {
+					genThumbFile = true;
+					var topPadPx = dimensions[0] / 4;
+					var options = [
+						'-y',
+						'-vf', 'scale=' + dimensions[0] + ':trunc(ow/a/2)*2,pad=' + dimensions[0] + ':' + dimensions[1] + ':0:' + parseInt(topPadPx) + ':black',
+						'-i', filePath,
+						thumbFile + '.jpg'
+					];
 				}
-			});
+			}
+			// photo thumbnails (square and large with no cropping)
+			else {
+				if (size.match(/x/)) {
+					if (fileExt.match(imageTypes)) {
+						genThumbFile = true;
+						var options = [
+							'-gravity', 'center',
+							'-thumbnail', size + '^',
+							'-extent', size,
+							'-auto-orient',
+							filePath,
+							thumbFile
+						];
+					}
+				}
+				else {
+					genThumbFile = true;
+					var options = [
+						'-thumbnail', size,
+						'-auto-orient',
+						filePath,
+						thumbFile
+					];
+				}
+			}
+
+			if (genThumbFile === true) {
+				mkdirp(thumbPath, function(err) {
+					if (err) throw err;
+
+					if ( ! fs.existsSync(thumbFile) ) {
+						child_process.execFile(thumbCmd, options, {}, function(err, stdout) {
+							//if (err) throw err;
+							next();
+						});
+					} else {
+						next();
+					}
+				});
+			} else {
+				next();
+			}
 		},
 		function done() {
 			callback();
