@@ -6,7 +6,7 @@ console.log("Adding indexes:");
 
 console.log(" - events collection");
 events.ensureIndex({ name: 1 });
-events.ensureIndex({ slug: 1 });
+events.ensureIndex({ slug: 1 }, { unique: true });
 events.ensureIndex({ year: 1 });
 events.ensureIndex({ month: 1 });
 events.ensureIndex({ begins: 1 });
