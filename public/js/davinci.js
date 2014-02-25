@@ -146,8 +146,6 @@ function isSearchKeystroke(key) {
 
 
 $(function() {
-	fetchPics();
-
 	$(document).keydown(function(e) {
 		if (e.keyCode == 27) { // 'esc'
 			removeTheater();
