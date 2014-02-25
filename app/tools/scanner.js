@@ -5,9 +5,7 @@ var fs            = require('fs');
 var child_process = require('child_process');
 var mkdirp        = require('mkdirp');
 
-var slash       = Config.slash;
-var imageTypes  = /(jpg|png)/i;
-var videoTypes  = /(mp4|mov|mts|mpg)/i;
+var slash = Config.slash;
 
 var eventInfo = [];
 
@@ -66,10 +64,10 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 	// JPG files are 1000x more reliable and accurate
 	files.forEach(function(fileName) {
 		var fileExt = getFileExt(fileName);
-		if (fileExt && fileExt.match(imageTypes)) {
+		if (fileExt && fileExt.match(Config.imageTypes)) {
 			eventInfo[eventDir]['skip_videos'] = true;
 		}
-		if (fileExt && fileExt.match(videoTypes)) {
+		if (fileExt && fileExt.match(Config.videoTypes)) {
 			eventInfo[eventDir]['videos_exist'] = true;
 		}
 	});
@@ -89,7 +87,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 				}
 
 				// only set the event end date if it's a file with EXIF
-				if (fileExt && fileExt.match(imageTypes)) {
+				if (fileExt && fileExt.match(Config.imageTypes)) {
 					if (fileDate > eventEnd) {
 						eventEnd = fileDate;
 					}
@@ -166,14 +164,14 @@ function getFileDate(eventDir, fileName, callback) {
 	var fileDate = false;
 
 	// JPG files - always prefer EXIF metadata
-	if (fileExt && fileExt.match(imageTypes)) {
+	if (fileExt && fileExt.match(Config.imageTypes)) {
 		getImageExifDate(filePath, function(fileDate) {
 			callback(fileDate);
 		});
 	}
 
 	// Video files - always prefer XMP metadata
-	else if (fileExt && fileExt.match(videoTypes)) {
+	else if (fileExt && fileExt.match(Config.videoTypes)) {
 		if (eventInfo[eventDir]['skip_videos']) {
 			callback(false);
 		} else {
@@ -196,7 +194,7 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 	var fileExt  = getFileExt(fileName);
 
 	var thumbCmd = Config.cli.convert;
-	if (fileExt.match(videoTypes)) {
+	if (fileExt.match(Config.videoTypes)) {
 		thumbCmd = Config.cli.ffmpeg;
 	}
 
@@ -209,7 +207,7 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 			var genThumbFile = false;
 
 			// video thumbnails (square only)
-			if (fileExt.match(videoTypes)) {
+			if (fileExt.match(Config.videoTypes)) {
 				if (size.match(/x/)) {
 					genThumbFile = true;
 					var topPadPx = dimensions[0] / 4;
@@ -224,7 +222,7 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 			// photo thumbnails (square and large with no cropping)
 			else {
 				if (size.match(/x/)) {
-					if (fileExt.match(imageTypes)) {
+					if (fileExt.match(Config.imageTypes)) {
 						genThumbFile = true;
 						var options = [
 							'-gravity', 'center',

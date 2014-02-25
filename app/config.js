@@ -8,6 +8,10 @@ Config.cookie_secret  = 'quesadillatacos';
 // use '\\' on Windows
 Config.slash = '/';
 
+// File types
+Config.imageTypes = /(jpg|png)/i;
+Config.videoTypes = /(mp4|mov|mts|mpg)/i;
+
 // Directory containing Events pictures, no trailing slash
 Config.pictures_dir = '/space/Pictures';
 //Config.pictures_dir = 'Pictures';
