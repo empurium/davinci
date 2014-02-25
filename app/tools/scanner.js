@@ -124,35 +124,28 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 				console.log(' -> (JPG found - skipped video files)');
 			}
 
-			mongo.db.collection('events').findOne({
+			mongo.db.collection('events').update({
 				name:  eventName,
-				year:  year,
-				month: month
+				path:  eventDir
+			},
+			{
+				name:    eventName,
+				slug:    eventSlug,
+				year:    year,
+				month:   month,
+				begins:  eventStart,
+				ends:    eventEnd,
+				path:    eventDir,
+				thumb:   eventInfo[eventDir]['files'][0],
+				files:   eventInfo[eventDir]['files']
+			},
+			{
+				upsert: true
 			},
 			function (err, event) {
 				if (err) throw err;
 
-				if (event) {
-					// update the event times
-					// update the list of files
-					nextEvent();
-				} else {
-					mongo.db.collection('events').insert({
-						name:    eventName,
-						slug:    eventSlug,
-						year:    year,
-						month:   month,
-						begins:  eventStart,
-						ends:    eventEnd,
-						path:    eventDir,
-						thumb:   eventInfo[eventDir]['files'][0],
-						files:   eventInfo[eventDir]['files']
-					},
-					{},
-					function() {
-						nextEvent();
-					});
-				}
+				nextEvent();
 			});
 		}
 	);
@@ -209,13 +202,14 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 			// video thumbnails (square only)
 			if (fileExt.match(Config.videoTypes)) {
 				if (size.match(/x/)) {
-					genThumbFile = true;
+					genThumbFile = false;
 					var topPadPx = dimensions[0] / 4;
+					thumbFile    = thumbFile + '.jpg';
 					var options = [
 						'-y',
 						'-vf', 'scale=' + dimensions[0] + ':trunc(ow/a/2)*2,pad=' + dimensions[0] + ':' + dimensions[1] + ':0:' + parseInt(topPadPx) + ':black',
 						'-i', filePath,
-						thumbFile + '.jpg'
+						thumbFile
 					];
 				}
 			}
@@ -245,7 +239,7 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 				}
 			}
 
-			if (genThumbFile === true) {
+			if (genThumbFile) {
 				mkdirp(thumbPath, function(err) {
 					if (err) throw err;
 
