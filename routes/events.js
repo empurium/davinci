@@ -12,7 +12,7 @@ events.search = function(req, res) {
 	var searchQry = new RegExp(req.query.search, 'i');
 
 	mongo.db.collection('events')
-		.find({ name: searchQry, thumb: { $not: /(mpg|mov)$/i } })
+		.find({ name: searchQry })
 		.limit(50)
 		.sort({ begins: -1 })
 		.toArray(function(err, events) {
@@ -29,7 +29,7 @@ events.recent = function(req, res) {
 	}
 
 	mongo.db.collection('events')
-		.find({ begins: { $lte: eventsBegin }, thumb: { $not: /(mpg|mov)$/i } })
+		.find({ begins: { $lte: eventsBegin } })
 		.limit(50)
 		.sort({ begins: -1 })
 		.toArray(function(err, events) {
@@ -43,7 +43,7 @@ events.loadsince = function(req, res) {
 	eventsBegin = new Date(req.query.begins);
 
 	mongo.db.collection('events')
-		.find({ begins: { $lt: eventsBegin }, thumb: { $not: /(mpg|mov)$/i } })
+		.find({ begins: { $lt: eventsBegin } })
 		.limit(50)
 		.sort({ begins: -1 })
 		.toArray(function(err, events) {
