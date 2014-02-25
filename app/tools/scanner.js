@@ -58,10 +58,17 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 
 	var eventStart = new Date();
 	var eventEnd   = new Date();
+
 	var files = fs.readdirSync(eventDir);
+	if (files.indexOf('.picasa.ini') >= 0) {
+		files.splice(files.indexOf('.picasa.ini'), 1);
+	}
+	if (files.indexOf('.picasaoriginals') >= 0) {
+		files.splice(files.indexOf('.picasaoriginals'), 1);
+	}
 
 	// if the event has JPG files, let's skip video files
-	// JPG files are 1000x more reliable and accurate
+	// JPG files are far more reliable and accurate
 	files.forEach(function(fileName) {
 		var fileExt = getFileExt(fileName);
 		if (fileExt && fileExt.match(Config.imageTypes)) {
@@ -72,83 +79,109 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 		}
 	});
 
-	async.eachLimit(files, 5,
-		function iter(fileName, next) {
-			var fileExt = getFileExt(fileName);
+	// only scan if there are new files so we're MUCH faster
+	mongo.db.collection('events').findOne({
+		name:  eventName,
+		path:  eventDir
+	},
+	function (err, event) {
+		var scanFiles = false;
 
-			getFileDate(eventDir, fileName, function(fileDate) {
-				if (fileDate === false || fileName === '.picasa.ini' || fileName === '.picasaoriginals') {
-					return next();
+		if ( ! event || ! event.files ) {
+			scanFiles = true;
+		} else if (files.length != event.files.length) {
+			scanFiles = true;
+		} else if (files.toString() != event.files.toString()) {
+			files.forEach(function(fileName) {
+				if (event.files.indexOf(fileName) == -1) {
+					scanFiles = true;
 				}
-
-				if (fileDate < eventStart) {
-					eventStart = fileDate;
-					eventEnd   = eventStart;
-				}
-
-				// only set the event end date if it's a file with EXIF
-				if (fileExt && fileExt.match(Config.imageTypes)) {
-					if (fileDate > eventEnd) {
-						eventEnd = fileDate;
-					}
-				}
-
-				eventInfo[eventDir]['start'] = eventStart;
-				eventInfo[eventDir]['end']   = eventEnd;
-				eventInfo[eventDir]['files'].push(fileName);
-
-				if (fileExt) {
-					genThumbnail(eventName, eventDir, fileName, function() {
-						return next();
-					});
-				} else {
-					return next();
-				}
-			});
-		},
-		function done(err) {
-			var year  = eventStart.getFullYear();
-			var month = eventStart.getMonth() * 1 + 1;
-
-			var eventSlug = year + '/' + month + '/';
-			    eventSlug = eventSlug + eventName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-
-			if (eventInfo[eventDir]['files'].length == 0) {
-				nextEvent();
-			}
-
-			console.log(eventName + ' (' + files.length + ' files):');
-			console.log(' -> started ' + eventStart);
-			console.log(' -> ended   ' + eventEnd);
-			if (eventInfo[eventDir]['skip_videos'] && eventInfo[eventDir]['videos_exist']) {
-				console.log(' -> (JPG found - skipped video files)');
-			}
-
-			mongo.db.collection('events').update({
-				name:  eventName,
-				path:  eventDir
-			},
-			{
-				name:    eventName,
-				slug:    eventSlug,
-				year:    year,
-				month:   month,
-				begins:  eventStart,
-				ends:    eventEnd,
-				path:    eventDir,
-				thumb:   eventInfo[eventDir]['files'][0],
-				files:   eventInfo[eventDir]['files']
-			},
-			{
-				upsert: true
-			},
-			function (err, event) {
-				if (err) throw err;
-
-				nextEvent();
 			});
 		}
-	);
+
+		if (scanFiles) {
+			async.eachLimit(files, 5,
+				function iter(fileName, next) {
+					var fileExt = getFileExt(fileName);
+
+					getFileDate(eventDir, fileName, function(fileDate) {
+						if (fileDate === false || fileName === '.picasa.ini' || fileName === '.picasaoriginals') {
+							return next();
+						}
+
+						if (fileDate < eventStart) {
+							eventStart = fileDate;
+							eventEnd   = eventStart;
+						}
+
+						// only set the event end date if it's a file with EXIF
+						if (fileExt && fileExt.match(Config.imageTypes)) {
+							if (fileDate > eventEnd) {
+								eventEnd = fileDate;
+							}
+						}
+
+						eventInfo[eventDir]['start'] = eventStart;
+						eventInfo[eventDir]['end']   = eventEnd;
+						eventInfo[eventDir]['files'].push(fileName);
+
+						if (fileExt) {
+							genThumbnail(eventName, eventDir, fileName, function() {
+								return next();
+							});
+						} else {
+							return next();
+						}
+					});
+				},
+				function done(err) {
+					var year  = eventStart.getFullYear();
+					var month = eventStart.getMonth() * 1 + 1;
+
+					var eventSlug = year + '/' + month + '/';
+					    eventSlug = eventSlug + eventName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+
+					if (eventInfo[eventDir]['files'].length == 0) {
+						nextEvent();
+					}
+
+					console.log(eventName + ' (' + files.length + ' files):');
+					console.log(' -> started ' + eventStart);
+					console.log(' -> ended   ' + eventEnd);
+					if (eventInfo[eventDir]['skip_videos'] && eventInfo[eventDir]['videos_exist']) {
+						console.log(' -> (JPG found - skipped video files)');
+					}
+
+					mongo.db.collection('events').update({
+						name:  eventName,
+						path:  eventDir
+					},
+					{
+						name:    eventName,
+						slug:    eventSlug,
+						year:    year,
+						month:   month,
+						begins:  eventStart,
+						ends:    eventEnd,
+						path:    eventDir,
+						thumb:   eventInfo[eventDir]['files'][0],
+						files:   eventInfo[eventDir]['files']
+					},
+					{
+						upsert: true
+					},
+					function (err, event) {
+						if (err) throw err;
+
+						nextEvent();
+					});
+				}
+			);
+		} else {
+			console.log(eventName + ' has no new files.');
+			nextEvent();
+		}
+	});
 }
 
 function getFileDate(eventDir, fileName, callback) {
