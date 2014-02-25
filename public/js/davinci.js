@@ -1,68 +1,14 @@
-$(function() {
+window.onpopstate = function() {
 	fetchPics();
+}
 
-	Backbone.history.start({ pushState: true });
-
-	/*
-	$.address.externalChange(function(event) {
-		fetchPics();
-	});
-	*/
-
-	$(window).scroll(function() {
-		var loadMore = $(document).height() - ($(window).height() * 2);
-		if ($(window).scrollTop() >= loadMore) {
-			if (top.location.pathname === '/') {
-				fetchMoreEvents(lastLoadedEvent);
-			}
+$(window).scroll(function() {
+	var loadMore = $(document).height() - ($(window).height() * 2);
+	if ($(window).scrollTop() >= loadMore) {
+		if (top.location.pathname === '/') {
+			fetchMoreEvents(lastLoadedEvent);
 		}
-	});
-
-	$(document).keydown(function(e) {
-		if (e.keyCode == 27) { // 'esc'
-			removeTheater();
-			$('input#search-box').val('');
-			$('input#search-box').blur();
-		}
-
-		if (isSearchKeystroke(e.keyCode)) {
-			if ( ! $('input#search-box').is(':focus') ) {
-				$('input#search-box').val('');
-				$('input#search-box').focus();
-			}
-		}
-	});
-
-	$('input#search-box').keydown(function(e) {
-		var searchBox = $('input#search-box');
-
-		if (searchBox.val().length == 0) {
-			var url = '/events/recent/';
-		} else {
-			var url = '/events/search/';
-		}
-
-		if (isSearchKeystroke(e.keyCode)) {
-			delayedSearch(function() {
-				$.ajax({
-					url: '/events/search/',
-					data: {
-						search: searchBox.val()
-					},
-					success: function(events) {
-						$('div#grid-view').html('');
-						window.scrollTo(0, 0);
-						for (i = 0; i < events.length; i++) {
-							$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
-						}
-						bindEventThumbs();
-					}
-				});
-			});
-		}
-	});
-
-	$('ul.navbar-nav li').tooltip();
+	}
 });
 
 //
@@ -190,9 +136,64 @@ function bindEventPics() {
 }
 
 function updateUrl(url) {
-	Backbone.history.navigate(url);
+	window.history.pushState({ }, '', url);
 }
 
 function isSearchKeystroke(key) {
 	return (key >= 48 && key <= 57) || key == 8 || key == 189 || key == 32 || (key >= 96 && key <= 105) || (key >= 65 && key <= 90) || key == 8 || key == 32 || key == 190;
 }
+
+
+
+$(function() {
+	fetchPics();
+
+	$(document).keydown(function(e) {
+		if (e.keyCode == 27) { // 'esc'
+			removeTheater();
+			$('input#search-box').val('');
+			$('input#search-box').blur();
+		}
+
+		if (isSearchKeystroke(e.keyCode)) {
+			if ( ! $('input#search-box').is(':focus') ) {
+				$('input#search-box').val('');
+				$('input#search-box').focus();
+			}
+		}
+	});
+
+	$('input#search-box').keydown(function(e) {
+		var searchBox = $('input#search-box');
+
+		if (searchBox.val().length == 0) {
+			var url = '/events/recent/';
+		} else {
+			var url = '/events/search/';
+		}
+
+		if (isSearchKeystroke(e.keyCode)) {
+			delayedSearch(function() {
+				$.ajax({
+					url: '/events/search/',
+					data: {
+						search: searchBox.val()
+					},
+					success: function(events) {
+						$('div#grid-view').html('');
+						window.scrollTo(0, 0);
+						for (i = 0; i < events.length; i++) {
+							$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
+						}
+						bindEventThumbs();
+					}
+				});
+			});
+		}
+	});
+
+	$('nav a.navbar-brand').click(function() {
+		updateUrl('/');
+	});
+	$('ul.navbar-nav li').tooltip();
+});
