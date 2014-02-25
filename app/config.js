@@ -10,6 +10,7 @@ Config.slash = '/';
 
 // Directory containing Events pictures, no trailing slash
 Config.pictures_dir = '/space/Pictures';
+Config.pictures_dir = 'Pictures';
 
 // Directory to save the thumbnails. Could change to S3 in the future
 Config.thumbs = {
@@ -23,13 +24,23 @@ Config.thumbs = {
 }
 
 Config.cli = {
+	// used for parsing EXIF data on images and videos to detect
+	// beginning and end dates of events.
+	//
 	// exiftool is available at:
 	// http://www.sno.phy.queensu.ca/~phil/exiftool/
 	exiftool: '/usr/local/bin/exiftool',
 
+	// used for generating thumbnails of images
+	//
 	// convert is part of imagemagick
 	// (apt-get|brew) install imagemagick
 	convert:  '/usr/local/bin/convert'
+
+	// used for generating thumbnails of videos
+	//
+	// (apt-get|brew) install ffmpeg
+	convert:  '/usr/bin/ffmpeg'
 }
 
 Config.mongo = {
