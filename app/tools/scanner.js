@@ -175,7 +175,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 					ends:    eventEnd,
 					path:    eventDir,
 					thumb:   eventInfo[eventDir]['files'][0],
-					files:   eventInfo[eventDir]['files']
+					files:   eventInfo[eventDir]['files'].sort()
 				},
 				{
 					upsert: true
