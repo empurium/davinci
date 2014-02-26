@@ -165,6 +165,7 @@ $(function() {
 		}
 
 		if (isSearchKeystroke(e.keyCode)) {
+			$.fancybox.close();
 			if ( ! $('input#search-box').is(':focus') ) {
 				$('input#search-box').val('');
 				$('input#search-box').focus();
