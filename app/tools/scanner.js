@@ -145,8 +145,9 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 				});
 			},
 			function done(err) {
-				var year  = eventStart.getFullYear();
-				var month = eventStart.getMonth() * 1 + 1;
+				var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+				var year       = eventStart.getFullYear();
+				var month      = monthNames[ eventStart.getMonth() ];
 
 				var eventSlug = year + '/' + month + '/';
 				    eventSlug = eventSlug + eventName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
