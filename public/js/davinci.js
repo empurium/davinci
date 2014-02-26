@@ -1,4 +1,5 @@
 window.onpopstate = function() {
+	$.fancybox.close();
 	fetchPics();
 }
 
@@ -91,38 +92,6 @@ var delayedSearch = function() {
 	}
 }();
 
-//
-// Display a very fast 'theater' that displays the pictures/videos.
-//
-function displayTheater(url, fullUrl) {
-	// This should NOT scroll to top.
-	// Calculate scroll position, render on top of current window position.
-	window.scrollTo(0, 0);
-
-	var html = '<img src="' + url + '" />';
-	if (url.match(/\.(mp4|mov|mts|mpg)/i)) {
-		var html = '<video width="720" controls autoplay><source src="' + fullUrl + '" type="video/quicktime">Your browser does not support the video tag.</video>';
-	}
-
-	$('body').css('overflow-y', 'hidden');
-	$('nav').css('display', 'none');
-	$('div#grid-view').prepend('<div id="mask"></div>');
-	$('div#grid-view').prepend('<div id="theater-controls"><a href="' + fullUrl + '" target="_blank">Full Resolution</a></div>');
-	$('div#grid-view').prepend('<div id="theater">' + html + '</div>');
-	$('div#grid-view div#mask, div#grid-view div#theater').click(function() {
-		removeTheater();
-	});
-}
-
-function removeTheater() {
-	$('body').css('overflow-y', 'scroll');
-	$('nav').css('display', 'block');
-	$('div#grid-view div#theater').remove();
-	$('div#grid-view div#theater-controls').remove();
-	$('div#grid-view div#mask').remove();
-}
-
-
 function bindEventThumbs() {
 	$('div.event-grid img').click(function() {
 		fetchEventPics($(this).attr('data-url'));
@@ -130,9 +99,51 @@ function bindEventThumbs() {
 }
 
 function bindEventPics() {
-	$('div.pic-grid').click(function() {
-		displayTheater($(this).attr('data-media-url'), $(this).attr('data-media-full-url'));
+	// update URL on clicking an image and left/right navigation
+	$('.fancybox').click(function() {
+
 	});
+
+	$('.fancybox').fancybox({
+		openEffect:  'none',
+		closeEffect: 'none',
+		nextEffect:  'none',
+		prevEffect:  'none',
+		scrolling:   'yes',
+		preload:     1,
+		closeBtn:    false,
+		padding:     0,
+		margin:      [10, 120, 10, 120],
+		helpers: {
+			overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.85)' } },
+			thumbs:  { width: 100,  height: 100 }
+		},
+		afterLoad: function() {
+			var fullUrl = this.href.replace(/^\/thumb/, '/view').replace(/\?.*/, '');
+			this.title = '<a href="' + fullUrl + '" target="_blank">Full Resolution</a> ' + this.title;
+		}
+	});
+
+	/* Superzoom effect
+	$('.fancybox').fancybox({
+		openEffect:  'none',
+		closeEffect: 'none',
+		nextEffect:  'fade',
+		prevEffect:  'none',
+		padding:     0,
+		margin:      15,
+		autoCenter : false,
+        afterLoad  : function () {
+            $.extend(this, {
+                aspectRatio : false,
+                type    : 'html',
+                width   : '99%',
+                height  : '99%',
+                content : '<div class="fancybox-image" style="background-image:url(' + this.href + '); background-size: cover; background-position:50% 50%;background-repeat:no-repeat;height:100%;width:100%;" /></div>'
+            });
+        }
+	});
+	*/
 }
 
 function updateUrl(url) {
@@ -148,7 +159,7 @@ function isSearchKeystroke(key) {
 $(function() {
 	$(document).keydown(function(e) {
 		if (e.keyCode == 27) { // 'esc'
-			removeTheater();
+			$.fancybox.close();
 			$('input#search-box').val('');
 			$('input#search-box').blur();
 		}
