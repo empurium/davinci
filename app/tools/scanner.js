@@ -242,7 +242,7 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 			// video thumbnails (square only)
 			if (fileExt.match(Config.videoTypes)) {
 				if (size.match(/x/)) {
-					genThumbFile = false;
+					genThumbFile = true;
 					var topPadPx = dimensions[0] / 4;
 					thumbFile    = thumbFile + '.jpg';
 					var options = [
