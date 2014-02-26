@@ -18,6 +18,7 @@ $(window).scroll(function() {
 //
 function fetchPics() {
 	$('div#grid-view').html('');
+	$('h2#event-label').html('');
 
 	// this initial load should be done with server-side handlebars
 	// templates for the fastest initial load
@@ -66,13 +67,15 @@ function fetchMoreEvents(lastEventDate) {
 function fetchEventPics(url) {
 	$.ajax({
 		url: url,
-		success: function(pics) {
+		success: function(event) {
 			window.scrollTo(0, 0);
 			$('div#grid-view').html('');
-			for (i = 0; i < pics.files.length; i++) {
+			$('h2#event-label').html(event.name);
+			console.log(event.begins);
+			for (i = 0; i < event.files.length; i++) {
 				$('div#grid-view').append(Handlebars.templates['pic-grid']({
-					slug: pics.slug,
-					thumb: pics.files[i]
+					slug: event.slug,
+					thumb: event.files[i]
 				}));
 			}
 			bindEventPics();
@@ -191,6 +194,7 @@ $(function() {
 					},
 					success: function(events) {
 						$('div#grid-view').html('');
+						$('h2#event-label').html(searchBox.val());
 						window.scrollTo(0, 0);
 						for (i = 0; i < events.length; i++) {
 							$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
