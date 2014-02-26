@@ -24,7 +24,7 @@ images.thumb = function(req, res) {
 		}
 
 		var filePath = Config.thumbs.path + slash + event.name + slash + file + '-' + size + '.' + fileExt;
-		if (fileExt.match(Config.videoTypes)) {
+		if (fileExt && fileExt.match(Config.videoTypes)) {
 			filePath = filePath + '.jpg';
 		}
 
@@ -60,11 +60,11 @@ images.view = function(req, res) {
 		if (fs.existsSync(filePath)) {
 			var img = fs.readFileSync(filePath);
 
-			if (fileExt.match(Config.imageTypes)) {
+			if (fileExt && fileExt.match(Config.imageTypes)) {
 				res.writeHead(200, {'Content-Type': 'image/jpg' });
 			}
 			// specify with more accuracy: http://webdesign.about.com/od/multimedia/a/mime-types-by-content-type.htm
-			if (fileExt.match(Config.videoTypes)) {
+			if (fileExt && fileExt.match(Config.videoTypes)) {
 				res.writeHead(200, {'Content-Type': 'video/quicktime' });
 			}
 
