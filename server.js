@@ -35,6 +35,7 @@ app.get('/', routes.root.root);
 app.get('/events/search/:search', routes.events.search);
 app.get('/events/recent', routes.events.recent);
 app.get('/events/loadsince', routes.events.loadsince);
+app.get('/events/timeline', routes.events.timeline);
 app.get('/:year/:month/:slug', routes.events.event);
 
 app.get('/thumb/:year/:month/:slug/:image', routes.images.thumb);

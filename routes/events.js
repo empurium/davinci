@@ -3,9 +3,18 @@ var mongo  = require('../app/db/mongo');
 
 var events = module.exports = {};
 
-// NOTE: These NEED to be removed once thumbnail generation is working for them:
-// thumb: { $not: /(mpg|mov)$/i }
+events.timeline = function(req, res) {
+	if ( ! req.xhr ) { res.end(); return; }
 
+	mongo.db.collection('events').aggregate([
+	  { $unwind: "$files" },
+	  { $group: { _id: "$year", fileCount: { $sum: 1 } } },
+	  { $sort: { "_id": -1 } }
+	],
+	function(err, years) {
+		res.send(years);
+	});
+}
 
 events.search = function(req, res) {
 	if ( ! req.xhr ) { res.render('pictures.html'); return; }
