@@ -142,29 +142,34 @@ function bindEventThumbs() {
 }
 
 function bindEventPics() {
-	// update URL on clicking an image and left/right navigation
-	$('.fancybox').click(function() {
+	if (navigator && navigator.userAgent.match(/(iphone|ipad|android)/i)) {
+		$('.fancybox').click(function(e) {
+			window.open($(this).attr('href'));
+			e.preventDefault();
+			return false;
+		});
+	} else {
+		// TODO: update URL on clicking an image and left/right navigation
 
-	});
-
-	$('.fancybox').fancybox({
-		openEffect:  'none',
-		closeEffect: 'none',
-		nextEffect:  'none',
-		prevEffect:  'none',
-		scrolling:   'yes',
-		preload:     1,
-		closeBtn:    false,
-		padding:     0,
-		margin:      [10, 120, 10, 120],
-		helpers: {
-			overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.85)' } }
-		},
-		afterLoad: function() {
-			var fullUrl = this.href.replace(/^\/thumb/, '/view').replace(/\?.*/, '');
-			this.title = '<a href="' + fullUrl + '" target="_blank">Full Resolution</a> ' + this.title;
-		}
-	});
+		$('.fancybox').fancybox({
+			openEffect:  'none',
+			closeEffect: 'none',
+			nextEffect:  'none',
+			prevEffect:  'none',
+			scrolling:   'yes',
+			preload:     1,
+			closeBtn:    false,
+			padding:     0,
+			margin:      [10, 120, 10, 120],
+			helpers: {
+				overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.85)' } }
+			},
+			afterLoad: function() {
+				var fullUrl = this.href.replace(/^\/thumb/, '/view').replace(/\?.*/, '');
+				this.title = '<a href="' + fullUrl + '" target="_blank">Full Resolution</a> ' + this.title;
+			}
+		});
+	}
 }
 
 function updateUrl(url) {
