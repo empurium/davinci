@@ -1,20 +1,6 @@
-window.onpopstate = function() {
-	$.fancybox.close();
-	fetchContent();
-}
-
-$(window).scroll(function() {
-	if (top.location.pathname === '/') {
-		var loadMore = $(document).height() - ($(window).height() * 2);
-		if ($(window).scrollTop() >= loadMore) {
-			fetchMoreEvents(lastLoadedEvent);
-		}
-	}
-});
-
 //
-// Fetch the appropriate pictures upon page load, be it a list
-// of events, or a set of pictures inside an event.
+// Fetch the appropriate content upon page load, be it a list
+// of events, or a set of pictures inside an event, or a search.
 //
 function fetchContent() {
 	$('div#grid-view').html('');
@@ -49,7 +35,7 @@ function fetchContent() {
 }
 
 //
-// Fetch more pics in the following events as you scroll down.
+// Chronologically fetch more events as you scroll down the page.
 //
 function fetchMoreEvents(lastEventDate) {
 	$.ajax({
@@ -68,7 +54,7 @@ function fetchMoreEvents(lastEventDate) {
 }
 
 //
-// Fetch the pictures inside of an event.
+// Fetch the pictures/videos inside of an event.
 //
 function fetchEventPics(url) {
 	$.ajax({
@@ -94,7 +80,7 @@ function fetchEventPics(url) {
 }
 
 //
-// Search for events. Delayed for fast typing.
+// Search for events. Delayed for fast typing with no flicker.
 //
 var delayedSearch = function() {
 	var timer = 0;
@@ -106,9 +92,14 @@ var delayedSearch = function() {
 
 function searchEvents() {
 	var searchBox = $('input#search-box');
-	var searchUrl = '/events/search/' + encodeURIComponent(searchBox.val());
 
-	if (searchBox.val().length > 0 || top.location.pathname.match(/^\/events\/search/)) {
+	if (searchBox.val().length === 0) {
+		$('h2#event-label').html('');
+		updateUrl('/');
+		fetchContent();
+	} else {
+		var searchUrl = '/events/search/' + encodeURIComponent(searchBox.val());
+
 		$('h2#event-label').html('<i>Searching: ' + searchBox.val() + '</i>');
 		updateUrl(searchUrl);
 
@@ -125,10 +116,6 @@ function searchEvents() {
 				bindEventThumbs();
 			}
 		});
-	} else {
-		$('h2#event-label').html('');
-		updateUrl('/');
-		fetchContent();
 	}
 }
 
@@ -175,6 +162,20 @@ function isSearchKeystroke(key) {
 }
 
 
+
+window.onpopstate = function() {
+	$.fancybox.close();
+	fetchContent();
+}
+
+$(window).scroll(function() {
+	if (top.location.pathname === '/') {
+		var loadMore = $(document).height() - ($(window).height() * 2);
+		if ($(window).scrollTop() >= loadMore) {
+			fetchMoreEvents(lastLoadedEvent);
+		}
+	}
+});
 
 $(function() {
 	$(document).keydown(function(e) {
