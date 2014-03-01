@@ -158,8 +158,7 @@ function bindEventPics() {
 		padding:     0,
 		margin:      [10, 120, 10, 120],
 		helpers: {
-			overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.85)' } },
-			thumbs:  { width: 100,  height: 100 }
+			overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.85)' } }
 		},
 		afterLoad: function() {
 			var fullUrl = this.href.replace(/^\/thumb/, '/view').replace(/\?.*/, '');
