@@ -4,9 +4,9 @@ window.onpopstate = function() {
 }
 
 $(window).scroll(function() {
-	var loadMore = $(document).height() - ($(window).height() * 2);
-	if ($(window).scrollTop() >= loadMore) {
-		if (top.location.pathname === '/') {
+	if (top.location.pathname === '/') {
+		var loadMore = $(document).height() - ($(window).height() * 2);
+		if ($(window).scrollTop() >= loadMore) {
 			fetchMoreEvents(lastLoadedEvent);
 		}
 	}
