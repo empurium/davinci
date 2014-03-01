@@ -30,8 +30,8 @@ div#grid-view div.event-grid h5{line-height:17px}
 div#grid-view div.pic-grid{width:310px;margin:5px;}
 div#grid-view div.pic-grid img{width:310px;box-shadow:0 0 4px 1px #000}
 div#grid-view div.pic-grid img:hover{cursor:pointer;box-shadow:0 0 4px 1px #000}
-}@media (orientation: landscape){div#grid-view div.event-grid{width:136px;min-height:136px;}
-div#grid-view div.event-grid img{width:136px}
+}@media (orientation: landscape){div#grid-view div.event-grid{width:136px;height:250px;}
+div#grid-view div.event-grid img{width:136px;height:136px}
 div#grid-view div.pic-grid{width:265px;}
 div#grid-view div.pic-grid img{width:265px}
 }
