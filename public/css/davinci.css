@@ -30,6 +30,6 @@ div#grid-view div.pic-grid img{width:310px;box-shadow:0 0 4px 1px #000}
 div#grid-view div.pic-grid img:hover{cursor:pointer;box-shadow:0 0 4px 1px #000}
 }@media (max-width: 799px) and (orientation: landscape){div#grid-view div.event-grid{width:136px;height:250px;}
 div#grid-view div.event-grid img{width:136px;height:136px}
-div#grid-view div.pic-grid{width:265px;}
-div#grid-view div.pic-grid img{width:265px}
+div#grid-view div.pic-grid{width:570px;margin:10px 0 10px 0;}
+div#grid-view div.pic-grid img{width:570px}
 }
