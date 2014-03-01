@@ -32,7 +32,7 @@ app.get('/', routes.root.root);
 //app.post('/login', routes.user.login);
 //app.get('/logout', routes.user.logout);
 
-app.get('/events/search', routes.events.search);
+app.get('/events/search/:search', routes.events.search);
 app.get('/events/recent', routes.events.recent);
 app.get('/events/loadsince', routes.events.loadsince);
 app.get('/:year/:month/:slug', routes.events.event);

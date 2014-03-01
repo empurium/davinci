@@ -9,7 +9,7 @@ var events = module.exports = {};
 
 events.search = function(req, res) {
 	if ( ! req.xhr ) { res.render('pictures.html'); return; }
-	var searchQry = new RegExp(req.query.search, 'i');
+	var searchQry = new RegExp(req.params.search, 'i');
 
 	mongo.db.collection('events')
 		.find({ name: searchQry })
