@@ -93,11 +93,7 @@ var delayedSearch = function() {
 function searchEvents() {
 	var searchBox = $('input#search-box');
 
-	if (searchBox.val().length === 0) {
-		$('h2#event-label').html('');
-		updateUrl('/');
-		fetchContent();
-	} else {
+	if (searchBox.val().length > 0) {
 		var searchUrl = '/events/search/' + encodeURIComponent(searchBox.val());
 
 		$('h2#event-label').html('<i>Searching: ' + searchBox.val() + '</i>');
@@ -116,6 +112,10 @@ function searchEvents() {
 				bindEventThumbs();
 			}
 		});
+	} else {
+		$('h2#event-label').html('');
+		updateUrl('/');
+		fetchContent();
 	}
 }
 
