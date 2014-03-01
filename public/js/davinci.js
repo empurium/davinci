@@ -120,6 +120,21 @@ function searchEvents() {
 }
 
 
+function bindTimelineLinks() {
+	$('div#timeline ul a').click(function() {
+		$('div#grid-view').html('');
+		$('h2#event-label').html('');
+		$('h4#event-date').html('');
+
+		var eventsBegin = $(this).attr('data-year');
+		if (eventsBegin === 'newest') {
+			eventsBegin = new Date();
+		}
+
+		fetchMoreEvents(eventsBegin);
+	});
+}
+
 function bindEventThumbs() {
 	$('div.event-grid img').click(function() {
 		fetchEventPics($(this).attr('data-url'));
@@ -209,4 +224,14 @@ $(function() {
 		updateUrl('/');
 	});
 	$('ul.navbar-nav li').tooltip();
+
+	$.ajax({
+		url: '/events/timeline',
+		success: function(years) {
+			for (i = 0; i < years.length; i++) {
+				$('div#timeline ul').append(Handlebars.templates['timeline-year'](years[i]));
+			}
+			bindTimelineLinks();
+		}
+	});
 });

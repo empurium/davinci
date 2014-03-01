@@ -8,7 +8,7 @@ events.timeline = function(req, res) {
 
 	mongo.db.collection('events').aggregate([
 	  { $unwind: "$files" },
-	  { $group: { _id: "$year", fileCount: { $sum: 1 } } },
+	  { $group: { _id: "$year", begins: { $min: "$begins" }, fileCount: { $sum: 1 } } },
 	  { $sort: { "_id": -1 } }
 	],
 	function(err, years) {
