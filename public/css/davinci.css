@@ -18,3 +18,5 @@ div.event-grid h5 { color: #DBDBDB; text-shadow: 1px 1px 5px #000; text-align: c
 div.pic-grid { float: left; width: 220px; height: 220px; margin: 10px; }
 div.pic-grid img { box-shadow: 0px 0px 10px 2px #000; }
 div.pic-grid img:hover { cursor: pointer; box-shadow: 0px 0px 10px 1px #777; }
+
+div.fancybox-outer { background-color: black; }
