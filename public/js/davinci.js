@@ -198,7 +198,7 @@ $(function() {
 					},
 					success: function(events) {
 						$('div#grid-view').html('');
-						$('h2#event-label').html(searchBox.val());
+						$('h2#event-label').html('<i>Searching: ' + searchBox.val() + '</i>');
 						$('h4#event-date').html('');
 						window.scrollTo(0, 0);
 						for (i = 0; i < events.length; i++) {
