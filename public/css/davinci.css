@@ -3,7 +3,7 @@ body{background-color:#222}
 div.fancybox-outer{background-color:#000}
 h2#event-label{color:#dadada;margin:25px 25px 25px 110px;text-shadow:0 0 10px #777}
 h4#event-date{color:#bbb;margin:50px 10px 10px 110px;text-shadow:0 0 4px #444;line-height:25px}
-div#timeline{position:fixed;width:110px;margin:0;background-color:#111;float:left;}
+div#timeline{position:fixed;float:left;width:110px;margin:0;background-color:#111;}
 div#timeline ul{list-style-type:none;padding:10px}
 div#timeline ul ol{list-style-type:none;padding-left:20px}
 div#grid-view{margin-left:110px;}
@@ -18,16 +18,14 @@ div#grid-view div.pic-grid img:hover{cursor:pointer;box-shadow:0 0 10px 1px #777
 @media (min-width: 800px){div#grid-view div.pic-grid{height:220px;}
 div#grid-view div.pic-grid img{height:220px}
 }@media (max-width: 799px){ul.navbar-nav{display:none}
-div#timeline{position:relative;width:110px;margin:0;background-color:#111;float:left;}
-div#timeline ul{list-style-type:none;padding:10px}
-div#timeline ul ol{list-style-type:none;padding-left:20px}
+div#timeline{position:relative;float:left;width:154px;background-color:#111;font-size:18px;margin-right:6px}
 div#grid-view{margin:0;}
 div#grid-view div.event-grid{width:154px;height:250px;margin:3px;}
 div#grid-view div.event-grid img{width:154px;height:154px;box-shadow:0 0 4px 1px #000}
 div#grid-view div.event-grid img:hover{cursor:pointer;box-shadow:0 0 4px 1px #000}
 div#grid-view div.event-grid small{top:2px;right:2px;padding:3px}
 div#grid-view div.event-grid h5{line-height:17px}
-div#grid-view div.pic-grid{width:310px;margin:5px;}
+div#grid-view div.pic-grid{width:310px;margin:5px 5px 10px 5px;}
 div#grid-view div.pic-grid img{width:310px;box-shadow:0 0 4px 1px #000}
 div#grid-view div.pic-grid img:hover{cursor:pointer;box-shadow:0 0 4px 1px #000}
 }@media (orientation: landscape){div#grid-view div.event-grid{width:136px;height:250px;}
