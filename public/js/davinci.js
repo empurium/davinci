@@ -1,6 +1,6 @@
 window.onpopstate = function() {
 	$.fancybox.close();
-	fetchPics();
+	fetchContent();
 }
 
 $(window).scroll(function() {
@@ -16,7 +16,7 @@ $(window).scroll(function() {
 // Fetch the appropriate pictures upon page load, be it a list
 // of events, or a set of pictures inside an event.
 //
-function fetchPics() {
+function fetchContent() {
 	$('div#grid-view').html('');
 	$('h2#event-label').html('');
 	$('h4#event-date').html('');
@@ -37,7 +37,7 @@ function fetchPics() {
 	}
 
 	// handle landing on a search URL
-	if (top.location.pathname.match(/^events\/search/)) {
+	if (top.location.pathname.match(/^\/events\/search/)) {
 		searchEvents();
 	}
 
@@ -108,11 +108,7 @@ function searchEvents() {
 	var searchBox = $('input#search-box');
 	var searchUrl = '/events/search/' + encodeURIComponent(searchBox.val());
 
-	if (searchBox.val().length == 0) {
-		$('h2#event-label').html('');
-		updateUrl('/');
-		fetchPics();
-	} else {
+	if (searchBox.val().length > 0 || top.location.pathname.match(/^\/events\/search/)) {
 		$('h2#event-label').html('<i>Searching: ' + searchBox.val() + '</i>');
 		updateUrl(searchUrl);
 
@@ -129,6 +125,10 @@ function searchEvents() {
 				bindEventThumbs();
 			}
 		});
+	} else {
+		$('h2#event-label').html('');
+		updateUrl('/');
+		fetchContent();
 	}
 }
 
