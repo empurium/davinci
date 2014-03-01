@@ -11,11 +11,11 @@ div.fancybox-outer
 h2#event-label
 	color:       #dadada
 	margin:      25px 25px 25px 110px
-	text-shadow: 0px 0px 10px #777
+	text-shadow: 0px 0px 10px #000
 h4#event-date
 	color:       #bbb
 	margin:      50px 10px 10px 110px
-	text-shadow: 0px 0px 4px #444
+	text-shadow: 0px 0px 4px #000
 	line-height: 25px
 
 div#timeline
@@ -96,6 +96,11 @@ div#grid-view
 	ul.navbar-nav
 		display: none
 
+	h2#event-label
+		margin:      10px
+	h4#event-date
+		margin:      30px
+
 	div#timeline
 		position:         relative
 		float:            left
@@ -105,7 +110,7 @@ div#grid-view
 		margin-right:     6px
 
 	div#grid-view
-		margin: 0px
+		margin:     0px
 		div.event-grid
 			width:    154px
 			height:   250px
@@ -133,7 +138,7 @@ div#grid-view
 				cursor:     pointer
 				box-shadow: 0px 0px 4px 1px #000
 
-@media (orientation: landscape)
+@media (max-width: 799px) and (orientation: landscape)
 	div#grid-view
 		div.event-grid
 			width:        136px
