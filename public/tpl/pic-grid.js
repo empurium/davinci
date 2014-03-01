@@ -1,1 +1,36 @@
-!function(){var a=Handlebars.template,l=Handlebars.templates=Handlebars.templates||{};l["pic-grid"]=a(function(a,l,t,h,s){this.compilerInfo=[4,">= 1.0.0"],t=this.merge(t,a.helpers),s=s||{};var e,c,d="",i="function",u=this.escapeExpression;return d+='<div class="pic-grid">\n	<a class="fancybox" rel="group" href="/thumb/',(c=t.slug)?e=c.call(l,{hash:{},data:s}):(c=l&&l.slug,e=typeof c===i?c.call(l,{hash:{},data:s}):c),d+=u(e)+"/",(c=t.thumb)?e=c.call(l,{hash:{},data:s}):(c=l&&l.thumb,e=typeof c===i?c.call(l,{hash:{},data:s}):c),d+=u(e)+'?size=1024" data-media-full-url="/view/',(c=t.slug)?e=c.call(l,{hash:{},data:s}):(c=l&&l.slug,e=typeof c===i?c.call(l,{hash:{},data:s}):c),d+=u(e)+"/",(c=t.thumb)?e=c.call(l,{hash:{},data:s}):(c=l&&l.thumb,e=typeof c===i?c.call(l,{hash:{},data:s}):c),d+=u(e)+'"><img src="/thumb/',(c=t.slug)?e=c.call(l,{hash:{},data:s}):(c=l&&l.slug,e=typeof c===i?c.call(l,{hash:{},data:s}):c),d+=u(e)+"/",(c=t.thumb)?e=c.call(l,{hash:{},data:s}):(c=l&&l.thumb,e=typeof c===i?c.call(l,{hash:{},data:s}):c),d+=u(e)+'?size=220x220" alt="" width="220" height="220" /></a>\n</div>\n'})}();
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['pic-grid'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"pic-grid\">\n	<a class=\"fancybox\" rel=\"group\" href=\"/thumb/";
+  if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "/";
+  if (helper = helpers.thumb) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.thumb); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "?size=1024\" data-media-full-url=\"/view/";
+  if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "/";
+  if (helper = helpers.thumb) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.thumb); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\"><img src=\"/thumb/";
+  if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "/";
+  if (helper = helpers.thumb) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.thumb); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "?size=220x220\" alt=\"\" /></a>\n</div>\n";
+  return buffer;
+  });
+})();
