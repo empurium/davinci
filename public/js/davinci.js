@@ -14,7 +14,7 @@ function fetchContent() {
 			url: '/events/recent',
 			success: function(events) {
 				for (i = 0; i < events.length; i++) {
-					$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
+					renderEvent(events[i]);
 					lastLoadedEvent = events[i].begins;
 				}
 				bindEventThumbs();
@@ -45,7 +45,7 @@ function fetchMoreEvents(lastEventDate) {
 		},
 		success: function(events) {
 			for (i = 0; i < events.length; i++) {
-				$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
+				renderEvent(events[i]);
 				lastLoadedEvent = events[i].begins;
 			}
 			bindEventThumbs();
@@ -107,7 +107,7 @@ function searchEvents() {
 				window.scrollTo(0, 0);
 
 				for (i = 0; i < events.length; i++) {
-					$('div#grid-view').append(Handlebars.templates['event-grid'](events[i]));
+					renderEvent(events[i]);
 				}
 				bindEventThumbs();
 			}
@@ -170,6 +170,14 @@ function bindEventPics() {
 			}
 		});
 	}
+}
+
+function renderEvent(e) {
+	e.thumbSize = '220x220';
+	if (navigator && navigator.userAgent.match(/(iphone|ipad|android)/i)) {
+		e.thumbSize = '154x154';
+	}
+	$('div#grid-view').append(Handlebars.templates['event-grid'](e));
 }
 
 function updateUrl(url) {
