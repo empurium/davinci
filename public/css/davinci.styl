@@ -8,6 +8,16 @@ body
 div.fancybox-outer
 	background-color: black
 
+h2#event-label
+	color:       #dadada
+	margin:      25px 25px 25px 110px
+	text-shadow: 0px 0px 10px #777
+h4#event-date
+	color:       #bbb
+	margin:      50px 10px 10px 110px
+	text-shadow: 0px 0px 4px #444
+	line-height: 25px
+
 div#timeline
 	position:         fixed
 	width:            110px
@@ -55,25 +65,19 @@ div#grid-view
 	div.pic-grid
 		float:  left
 		width:  220px
-		height: 220px
 		margin: 10px
 		img
 			width:      220px
-			height:     220px
 			box-shadow: 0px 0px 10px 2px #000
 		img:hover
 			cursor:     pointer
 			box-shadow: 0px 0px 10px 1px #777
 
-h2#event-label
-	color:       #dadada
-	margin:      25px 25px 25px 110px
-	text-shadow: 0px 0px 10px #777
-h4#event-date
-	color:       #bbb
-	margin:      50px 10px 10px 110px
-	text-shadow: 0px 0px 4px #444
-	line-height: 25px
+@media (min-width: 800px)
+	div#grid-view div.pic-grid
+		height:   220px
+		img
+			height: 220px
 
 
 
@@ -114,40 +118,34 @@ h4#event-date
 			img
 				width:      154px
 				height:     154px
-				box-shadow: none
+				box-shadow: 0px 0px 4px 1px #000
+			img:hover
+				cursor:     pointer
+				box-shadow: 0px 0px 4px 1px #000
 			small
 				top:              2px
 				right:            2px
 				padding:          3px
-			img:hover
-				cursor:     pointer
-				box-shadow: 0px 0px 10px 1px #777
 			h5
 				line-height: 17px
 		div.pic-grid
-			float:  left
-			width:  154px
-			height: 154px
-			margin: 10px
+			width:      310px
+			margin:     5px
 			img
-				width:      154px
-				height:     154px
-				box-shadow: 0px 0px 10px 2px #000
+				width:      310px
+				box-shadow: 0px 0px 4px 1px #000
 			img:hover
 				cursor:     pointer
-				box-shadow: 0px 0px 10px 1px #777
+				box-shadow: 0px 0px 4px 1px #000
 
 @media (orientation: landscape)
 	div#grid-view
 		div.event-grid
 			width:        136px
-			height:       250px
+			min-height:   136px
 			img
 				width:      136px
-				height:     136px
-				box-shadow: none
 		div.pic-grid
-			width:        136px
+			width:        265px
 			img
-				width:      136px
-				height:     136px
+				width:      265px
