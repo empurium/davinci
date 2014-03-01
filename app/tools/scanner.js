@@ -168,15 +168,16 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 					path:  eventDir
 				},
 				{
-					name:    eventName,
-					slug:    eventSlug,
-					year:    year,
-					month:   month,
-					begins:  eventStart,
-					ends:    eventEnd,
-					path:    eventDir,
-					thumb:   eventInfo[eventDir]['files'][0],
-					files:   eventInfo[eventDir]['files'].sort()
+					name:       eventName,
+					slug:       eventSlug,
+					year:       year,
+					month:      month,
+					begins:     eventStart,
+					ends:       eventEnd,
+					path:       eventDir,
+					thumb:      eventInfo[eventDir]['files'][0],
+					filesCount: eventInfo[eventDir]['files'].length,
+					files:      eventInfo[eventDir]['files'].sort()
 				},
 				{
 					upsert: true
