@@ -22,7 +22,7 @@ events.search = function(req, res) {
 
 	mongo.db.collection('events')
 		.find({ name: searchQry })
-		.limit(50)
+		//.limit(50)
 		.sort({ begins: -1 })
 		.toArray(function(err, events) {
 			res.send(events);
