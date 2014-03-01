@@ -20,10 +20,15 @@ Config.pictures_dir = '/space/Pictures';
 Config.thumbs = {
 	path:  '/tmp/thumbnails',
 	sizes: [
-		'128x128', // small thumbnails used on mobile browsers
-		'220x220', // large thumbnails used on full browsers
-		'640',     // large 'full-size' images used on mobile browsers
-		'1024'     // large 'full-size' images used on full browsers
+		// square thumbnails
+		'154x154',
+		'220x220',
+		'308x308',
+
+		// mini pics, not cropped
+		'310',
+		'640',
+		'1024'
 	]
 }
 
