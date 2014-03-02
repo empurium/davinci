@@ -235,7 +235,6 @@ $(function() {
 		$('input#search-box').val('');
 		updateUrl('/');
 	});
-	$('ul.navbar-nav li').tooltip();
 
 	$.ajax({
 		url: '/events/timeline',
