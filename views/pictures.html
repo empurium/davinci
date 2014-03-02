@@ -26,11 +26,23 @@
 </head>
 <body>
 	<nav>
-		<a class="navbar-brand" href="#">da Vinci</a>
+		<ul class="navbar-timeline">
+			<li>
+				<a class="navbar-brand" href="#">da Vinci</a>
+				<ul>
+					<li>&nbsp;</li>
+					<li><a href="#" data-year="newest">Newest</i></a></li>
+					<li>&nbsp;</li>
+					<li><a href="#" data-year="2014">2014</i></a></li>
+					<li><a href="#" data-year="2013">2013</i></a></li>
+					<li><a href="#" data-year="2012">2012</i></a></li>
+				</ul>
+			</li>
+		</ul>
 
 		<input type="text" id="search-box" placeholder="start typing to search" />
 
-		<ul>
+		<ul class="navbar-filters">
 			<li class="active"><a href="#" title="All pictures"><i class="fa fa-asterisk"></i></a></li>
 			<li><a href="#" title="Favorite pictures"><i class="fa fa-star"></i></a></li>
 			<li><a href="#" title="Events with 5+ pictures"><i class="fa fa-fire"></i></a></li>
@@ -38,13 +50,6 @@
 			<li><a href="#" title="Hidden pictures"><i class="fa fa-eye"></i></a></li>
 		</ul>
 	</nav>
-
-	<div id="timeline">
-		<ul>
-			<li><a href="#" data-year="newest">Newest</i></a></li>
-			<li>&nbsp;</li>
-		</ul>
-	</div>
 
 	<div class="clearfix"></div>
 	<h2 id="event-label"></h2>
