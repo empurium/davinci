@@ -1,1 +1,1 @@
-<li><a href="#" data-year="{{ begins }}">{{ _id }} <i>({{ fileCount }})</i></a></li>
+<li data-year="{{ begins }}"><a href="#">{{ _id }} <i>({{ fileCount }})</i></a></li>
