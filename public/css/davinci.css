@@ -5,9 +5,10 @@ nav input#search-box{float:right;width:250px;margin:3px 15px 0 5px;padding:5px;c
 nav ul.navbar-timeline{float:left;position:relative;display:inline-table;list-style:none;margin:0;padding:0;}
 nav ul.navbar-timeline :after{content:"";clear:both;display:block}
 nav ul.navbar-timeline li:hover > ul{display:block}
-nav ul.navbar-timeline ul{display:none;background-color:#d9d9d9;list-style:none;margin:0;padding:0;}
+nav ul.navbar-timeline ul{display:none;background-color:#d9d9d9;list-style:none;margin:0;padding:0;box-shadow:0 0 10px 2px #111;}
+nav ul.navbar-timeline ul li a{color:#111;text-decoration:none}
 nav ul.navbar-timeline ul li{padding:10px}
-nav ul.navbar-timeline ul li:hover{box-shadow:inset 0 1px 3px rgba(0,0,0,0.085);background-color:#bbb}
+nav ul.navbar-timeline ul li:hover{cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,0.085);background-color:#bbb}
 nav ul.navbar-filters{float:left;list-style:none;margin:0;padding:0;}
 nav ul.navbar-filters li{float:left;padding:10px;}
 nav ul.navbar-filters li a{color:#222}
