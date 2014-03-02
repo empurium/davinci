@@ -121,7 +121,7 @@ function searchEvents() {
 
 
 function bindTimelineLinks() {
-	$('div#timeline ul a').click(function() {
+	$('ul.navbar-timeline li').click(function() {
 		$('div#grid-view').html('');
 		$('h2#event-label').html('');
 		$('h4#event-date').html('');
@@ -241,7 +241,7 @@ $(function() {
 		url: '/events/timeline',
 		success: function(years) {
 			for (i = 0; i < years.length; i++) {
-				$('div#timeline ul').append(Handlebars.templates['timeline-year'](years[i]));
+				$('ul.navbar-timeline ul').append(Handlebars.templates['timeline-year'](years[i]));
 			}
 			bindTimelineLinks();
 		}
