@@ -195,14 +195,15 @@ window.onpopstate = function() {
 	fetchContent();
 }
 
-$(window).scroll(function() {
+var throttledScroll = _.throttle(function() {
 	if (top.location.pathname === '/') {
 		var loadMore = $(document).height() - ($(window).height() * 2);
 		if ($(window).scrollTop() >= loadMore) {
 			fetchMoreEvents(lastLoadedEvent);
 		}
 	}
-});
+}, 250);
+$(window).scroll(throttledScroll);
 
 $(function() {
 	$(document).keydown(function(e) {
