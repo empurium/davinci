@@ -82,15 +82,7 @@ function fetchEventPics(url) {
 //
 // Search for events. Delayed for fast typing with no flicker.
 //
-var delayedSearch = function() {
-	var timer = 0;
-	return function(callback) {
-		clearTimeout(timer);
-		timer = setTimeout(callback, 500);
-	}
-}();
-
-function searchEvents() {
+var debouncedSearch = _.debounce(function() {
 	var searchBox = $('input#search-box');
 
 	if (searchBox.val().length > 0) {
@@ -117,8 +109,7 @@ function searchEvents() {
 		updateUrl('/');
 		fetchContent();
 	}
-}
-
+}, 500);
 
 function bindTimelineLinks() {
 	$('ul.navbar-timeline li').click(function() {
@@ -202,7 +193,7 @@ var throttledScroll = _.throttle(function() {
 			fetchMoreEvents(lastLoadedEvent);
 		}
 	}
-}, 250);
+}, 450);
 $(window).scroll(throttledScroll);
 
 $(function() {
@@ -227,7 +218,7 @@ $(function() {
 	// search
 	$('input#search-box').keydown(function(e) {
 		if (isSearchKeystroke(e.keyCode)) {
-			delayedSearch(searchEvents);
+			debouncedSearch();
 		}
 	});
 
