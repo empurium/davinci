@@ -141,15 +141,10 @@ div#grid-view
 
 
 
-
-
-
-
-
-
-
-
-@media (max-width: 1100px)
+//
+// iPhone 5 in both portrait/landscape
+//
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px)
 	nav
 		a.navbar-brand
 			padding:         7px 5px 7px 5px
@@ -194,7 +189,13 @@ div#grid-view
 				cursor:     pointer
 				box-shadow: 0px 0px 4px 1px #000
 
-@media (max-width: 1100px) and (orientation: landscape)
+//
+// iPhone 5 in landscape
+//
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape)
+	nav
+		position: relative
+
 	div#grid-view
 		div.event-grid
 			width:        136px
