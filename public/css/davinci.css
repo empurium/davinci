@@ -22,12 +22,12 @@ div#grid-view div.event-grid{position:relative;float:left;width:220px;height:300
 div#grid-view div.event-grid img{width:220px;height:220px;box-shadow:0 0 10px 2px #000}
 div#grid-view div.event-grid img:hover{cursor:pointer;box-shadow:0 0 10px 1px #777}
 div#grid-view div.event-grid small{position:absolute;top:5px;right:5px;z-index:100;color:#eee;background-color:#000;opacity:.65;padding:3px;font-weight:bold;border-radius:3px}
-div#grid-view div.event-grid h5{color:#dbdbdb;text-shadow:1px 1px 5px #000;text-align:center;line-height:20px}
+div#grid-view div.event-grid h5{color:#dbdbdb;margin:5px;font-size:14px;font-weight:normal;text-shadow:1px 1px 5px #000;text-align:center;line-height:20px}
 div#grid-view div.pic-grid{float:left;width:310px;margin:10px;}
 div#grid-view div.pic-grid img{width:310px;box-shadow:0 0 10px 2px #000}
 div#grid-view div.pic-grid img:hover{cursor:pointer;box-shadow:0 0 10px 1px #777}
 @media (max-width: 1100px){nav a.navbar-brand{padding:7px 5px 7px 5px}
-nav input#search-box{float:right;width:250px;margin:3px 5px 0 5px}
+nav input#search-box{float:right;width:200px;margin:3px 5px 0 5px}
 nav ul.navbar-filters{display:none}
 h2#event-label{margin:10px}
 h4#event-date{margin:30px}
