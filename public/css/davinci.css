@@ -1,7 +1,7 @@
 body{margin:45px 0 0 0;background-color:#222;font-size:14px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
 nav{position:fixed;top:0;left:0;width:100%;height:36px;margin:0;padding:0;background-color:#d9d9d9;border-color:#e7e7e7;background:linear-gradient(top,#f8f8f8 0%,#d9d9d9 100%);background:-webkit-linear-gradient(top,#f8f8f8 0%,#d9d9d9 100%);background:-moz-linear-gradient(top,#f8f8f8 0%,#d9d9d9 100%);box-shadow:0 0 10px 2px #000;z-index:8000;}
 nav a.navbar-brand{float:left;padding:7px 15px 7px 15px;font-size:18px;color:#777;text-decoration:none}
-nav input#search-box{float:right;width:250px;margin:3px 15px 0 5px;padding:5px;color:#555;font-size:14px;border:1px solid #ccc;border-radius:4px;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075)}
+nav input#search-box{float:right;width:250px;margin:4px 15px 0 5px;padding:5px;color:#555;font-size:14px;border:1px solid #ccc;border-radius:4px;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075)}
 nav ul.navbar-timeline{float:left;position:relative;display:inline-table;list-style:none;margin:0;padding:0;}
 nav ul.navbar-timeline :after{content:"";clear:both;display:block}
 nav ul.navbar-timeline li:hover > ul{display:block}
@@ -15,8 +15,8 @@ nav ul.navbar-filters li a{color:#222}
 nav ul.navbar-filters li:hover{cursor:pointer;background-color:#ccc}
 nav ul.navbar-filters li.active{background-color:#ccc}
 div.fancybox-outer{background-color:#000}
-h2#event-label{color:#dadada;margin:25px 25px 25px 110px;text-shadow:0 0 10px #000}
-h4#event-date{color:#bbb;margin:50px 10px 10px 110px;text-shadow:0 0 4px #000;line-height:25px}
+h2#event-label{color:#dadada;margin:0 0 0 120px;text-shadow:0 0 10px #000}
+h5#event-date{color:#bbb;margin:0 0 0 120px;text-shadow:0 0 4px #000;line-height:25px}
 div#grid-view{margin-left:110px;}
 div#grid-view div.event-grid{position:relative;float:left;width:220px;height:300px;margin:10px;}
 div#grid-view div.event-grid img{width:220px;height:220px;box-shadow:0 0 10px 2px #000}
@@ -30,7 +30,7 @@ div#grid-view div.pic-grid img:hover{cursor:pointer;box-shadow:0 0 10px 1px #777
 nav input#search-box{float:right;width:200px;margin:3px 5px 0 5px}
 nav ul.navbar-filters{display:none}
 h2#event-label{margin:10px}
-h4#event-date{margin:30px}
+h5#event-date{margin:30px}
 div#grid-view{margin:0;}
 div#grid-view div.event-grid{width:154px;height:250px;margin:3px;}
 div#grid-view div.event-grid img{width:154px;height:154px;box-shadow:0 0 4px 1px #000}

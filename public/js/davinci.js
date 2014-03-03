@@ -5,7 +5,7 @@
 function fetchContent() {
 	$('div#grid-view').html('');
 	$('h2#event-label').html('');
-	$('h4#event-date').html('');
+	$('h5#event-date').html('');
 
 	// this initial load should be done with server-side handlebars
 	// templates for the fastest initial load
@@ -65,7 +65,7 @@ function fetchEventPics(url) {
 			window.scrollTo(0, 0);
 			$('div#grid-view').html('');
 			$('h2#event-label').html(event.name);
-			$('h4#event-date').html(begins.toLocaleString());
+			$('h5#event-date').html(begins.toLocaleString());
 
 			for (i = 0; i < event.files.length; i++) {
 				$('div#grid-view').append(Handlebars.templates['pic-grid']({
@@ -103,7 +103,7 @@ function searchEvents() {
 			url: searchUrl,
 			success: function(events) {
 				$('div#grid-view').html('');
-				$('h4#event-date').html('');
+				$('h5#event-date').html('');
 				window.scrollTo(0, 0);
 
 				for (i = 0; i < events.length; i++) {
@@ -124,7 +124,7 @@ function bindTimelineLinks() {
 	$('ul.navbar-timeline li').click(function() {
 		$('div#grid-view').html('');
 		$('h2#event-label').html('');
-		$('h4#event-date').html('');
+		$('h5#event-date').html('');
 
 		var eventsBegin = $(this).attr('data-year');
 		if (eventsBegin === 'newest') {
