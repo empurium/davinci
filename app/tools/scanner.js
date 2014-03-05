@@ -59,8 +59,10 @@ fs.readdir(Config.pictures_dir, function(err, years) {
 
 
 function scanEventFiles(eventDir, eventName, nextEvent) {
-	eventInfo[eventDir]          = [];
-	eventInfo[eventDir]['files'] = [];
+	eventInfo[eventDir]            = [];
+	eventInfo[eventDir]['files']   = [];
+	eventInfo[eventDir]['starred'] = [];
+	eventInfo[eventDir]['hidden']  = [];
 
 	var eventStart = new Date();
 	var eventEnd   = new Date();
@@ -68,6 +70,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 	var files = fs.readdirSync(eventDir);
 	if (files.indexOf('.picasa.ini') >= 0) {
 		files.splice(files.indexOf('.picasa.ini'), 1);
+		parsePicasaIni(eventDir);
 	}
 	if (files.indexOf('.picasaoriginals') >= 0) {
 		files.splice(files.indexOf('.picasaoriginals'), 1);
@@ -177,7 +180,9 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 					path:       eventDir,
 					thumb:      eventInfo[eventDir]['files'][0],
 					filesCount: eventInfo[eventDir]['files'].length,
-					files:      eventInfo[eventDir]['files'].sort()
+					starred:    eventInfo[eventDir]['starred'],
+					hidden:     eventInfo[eventDir]['hidden'],
+					files:      eventInfo[eventDir]['files']
 				},
 				{
 					upsert: true
@@ -385,6 +390,39 @@ function getVideoExifDate(filePath, callback) {
 			getPhysicalDate(filePath, function(fileDate) {
 				callback(fileDate);
 			});
+		}
+	});
+}
+
+function parsePicasaIni(eventDir) {
+	fs.readFile(eventDir + slash + '.picasa.ini', 'utf8', function(err, data) {
+		if (err) throw err;
+
+		var cfg = data.replace(/\r/g, '').split(/\n/);
+		var currentFile = '';
+
+		for (var i = 0; i < cfg.length; i++) {
+			// process main part of the config
+			if (cfg[i] == '[Picasa]' || cfg[i] == '') {
+				continue;
+			}
+			if (currentFile === '' && cfg[i].match(/\w+=.*$/)) {
+				var info = cfg[i].split(/=/);
+				eventInfo[eventDir][info[0]] = info[1];
+			}
+
+			// process each individual file config (hidden, starred, etc)
+			if (cfg[i].match(/^\[.*\]$/)) {
+				var currentFile = cfg[i].replace(/^\[/, '').replace(/\]$/, '');
+			}
+			if (currentFile != '' && cfg[i].match(/(star|hidden)=yes$/)) {
+				if (cfg[i] === 'star=yes') {
+					eventInfo[eventDir]['starred'].push(currentFile);
+				}
+				else if (cfg[i] === 'hidden=yes') {
+					eventInfo[eventDir]['hidden'].push(currentFile);
+				}
+			}
 		}
 	});
 }
