@@ -182,7 +182,7 @@ function scanEventFiles(eventDir, eventName, nextEvent) {
 					filesCount: eventInfo[eventDir]['files'].length,
 					starred:    eventInfo[eventDir]['starred'],
 					hidden:     eventInfo[eventDir]['hidden'],
-					files:      eventInfo[eventDir]['files']
+					files:      eventInfo[eventDir]['files'].sort()
 				},
 				{
 					upsert: true
