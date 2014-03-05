@@ -9,8 +9,8 @@ Config.cookie_secret  = 'quesadillatacos';
 Config.slash = '/';
 
 // File types
-Config.imageTypes = /(jpg|png)/i;
-Config.videoTypes = /(mov|mp4|mpg|avi|mts|3gp|wmv)/i;
+Config.imageTypes = /(jpg|png)$/i;
+Config.videoTypes = /(mov|mp4|mpg|avi|mts|3gp|wmv)$/i;
 
 // Directory containing Events pictures, no trailing slash
 Config.pictures_dir = '/space/Pictures';
