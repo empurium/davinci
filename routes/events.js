@@ -1,5 +1,6 @@
 var Config = require('../app/config');
 var mongo  = require('../app/db/mongo');
+var _      = require('underscore');
 
 var events = module.exports = {};
 
@@ -69,6 +70,21 @@ events.event = function(req, res) {
 
 	var fullSlug = year + '/' + month + '/' + slug;
 
+	// If you are not authorized, do not show hidden files
+	/*
+	mongo.db.collection('events').findOne({ slug: fullSlug }, function(err, event) {
+		req.session.lastEventBegins = event.begins;
+		event.files = _.reject(event.files, function(file) {
+			if (event.hidden.indexOf(file) === -1) {
+				return false;
+			}
+			return true;
+		});
+		delete event.hidden;
+
+		res.send(event);
+	});
+	*/
 	mongo.db.collection('events').findOne({ slug: fullSlug }, function(err, event) {
 		req.session.lastEventBegins = event.begins;
 		res.send(event);
