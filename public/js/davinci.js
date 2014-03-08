@@ -128,7 +128,29 @@ function bindTimelineLinks() {
 
 function bindEventThumbs() {
 	$('div.event-grid img').click(function() {
-		fetchEventPics($(this).attr('data-url'));
+		if ($(this).attr('data-file-count') > 1) {
+			fetchEventPics($(this).attr('data-url'));
+		} else {
+			var imgUrl = $(this).attr('src').replace(/size=.*$/, 'size=1024');
+			$.fancybox.open(imgUrl, {
+				openEffect:  'none',
+				closeEffect: 'none',
+				nextEffect:  'none',
+				prevEffect:  'none',
+				scrolling:   'yes',
+				preload:     1,
+				closeBtn:    false,
+				padding:     0,
+				margin:      [10, 120, 10, 120],
+				helpers: {
+					overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.85)' } }
+				},
+				afterLoad: function() {
+					var fullUrl = this.href.replace(/^\/thumb/, '/view').replace(/\?.*/, '');
+					this.title = '<a href="' + fullUrl + '" target="_blank">Full Resolution</a> ' + this.title;
+				}
+			});
+		}
 	});
 }
 
