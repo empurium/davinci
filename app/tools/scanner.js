@@ -232,9 +232,9 @@ function genThumbnail(eventName, eventDir, fileName, callback) {
 	var filePath = eventDir + slash + fileName;
 	var fileExt  = getFileExt(fileName);
 
-	var thumbCmd = Config.cli.convert;
+	var thumbCmd = 'convert';
 	if (fileExt.match(Config.videoTypes)) {
-		thumbCmd = Config.cli.ffmpeg;
+		thumbCmd = 'ffmpeg';
 	}
 
 	async.eachLimit(Config.thumbs.sizes, 5,
@@ -332,7 +332,7 @@ function getPhysicalDate(filePath, callback) {
 }
 
 function getImageExifDate(filePath, callback) {
-	child_process.execFile(Config.cli.exiftool, ['-j', filePath], {}, function(err, stdout) {
+	child_process.execFile('exiftool', ['-j', filePath], {}, function(err, stdout) {
 		var stdout   = JSON.parse(stdout.toString());
 		var stdout   = stdout[0];
 		var fileDate = false;
@@ -362,7 +362,7 @@ function getImageExifDate(filePath, callback) {
 }
 
 function getVideoExifDate(filePath, callback) {
-	child_process.execFile(Config.cli.exiftool, ['-j', filePath], {}, function(err, stdout) {
+	child_process.execFile('exiftool', ['-j', filePath], {}, function(err, stdout) {
 		var stdout   = JSON.parse(stdout.toString());
 		var stdout   = stdout[0];
 		var fileDate = false;
