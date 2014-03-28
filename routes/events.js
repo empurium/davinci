@@ -86,7 +86,13 @@ events.event = function(req, res) {
 	});
 	*/
 	mongo.db.collection('events').findOne({ slug: fullSlug }, function(err, event) {
-		req.session.lastEventBegins = event.begins;
-		res.send(event);
+		if (err) throw err;
+
+		if (event) {
+			req.session.lastEventBegins = event.begins;
+			res.send(event);
+		} else {
+			res.send({});
+		}
 	});
 }
