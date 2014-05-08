@@ -264,4 +264,6 @@ $(function() {
 			bindTimelineLinks();
 		}
 	});
+
+	fetchContent();
 });
